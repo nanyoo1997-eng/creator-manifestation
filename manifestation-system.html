@@ -1,0 +1,3288 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#A3B5A6" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="创造者日志" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <title>创造者日志 · 显化系统</title>
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="./icon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Lato:wght@400;500;700;900&family=Orbitron:wght@600;700;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #E9DDEA;
+      --card: rgba(252, 246, 255, .84);
+      --accent: #8870A3;
+      --accent-soft: #D7C5D6;
+      --accent-2: #BAB0C8;
+      --text: #312A44;
+      --muted: #75677F;
+      --line: rgba(49, 42, 68, .15);
+      --shadow: 0 18px 46px rgba(49, 42, 68, .13);
+      --danger: #984343;
+      --radius: 24px;
+      --pattern: radial-gradient(circle at 8% 12%, rgba(255,255,255,.66), transparent 26%), radial-gradient(circle at 88% 10%, rgba(186,176,200,.38), transparent 22%), linear-gradient(145deg, #F5ECF6 0%, #E9DDEA 45%, #D7C5D6 100%);
+    }
+
+    body[data-theme="coast"] {
+      --bg: #F1E8D7;
+      --card: rgba(255, 248, 237, .86);
+      --accent: #7B5C47;
+      --accent-soft: #D8CEB9;
+      --accent-2: #B18458;
+      --text: #34281F;
+      --muted: #76685C;
+      --line: rgba(66, 45, 34, .16);
+      --shadow: 0 18px 42px rgba(61, 47, 37, .13);
+      --danger: #9C5142;
+      --pattern: radial-gradient(circle at 10% 18%, rgba(255,255,255,.42), transparent 25%), radial-gradient(circle at 86% 22%, rgba(177,132,88,.24), transparent 23%), linear-gradient(150deg, #F1E8D7 0%, #EFE3CF 54%, #E0D2BB 100%);
+    }
+
+    body[data-theme="nebula"] {
+      --bg: #0B0E1A;
+      --card: rgba(13, 22, 35, .68);
+      --accent: #DDE8F6;
+      --accent-soft: rgba(80, 111, 143, .24);
+      --accent-2: #E2A477;
+      --text: #EEF4FA;
+      --muted: #A6B0BC;
+      --line: rgba(157, 182, 207, .2);
+      --shadow: 0 22px 70px rgba(0,0,0,.42), inset 0 1px 0 rgba(255,255,255,.05);
+      --danger: #E7A28F;
+      --pattern: linear-gradient(180deg, #010711 0%, #07111E 55%, #101623 100%);
+    }
+
+    body[data-theme="alchemy"] {
+      --bg: #D8D8D5;
+      --card: rgba(250, 247, 241, .86);
+      --accent: #4F6B4D;
+      --accent-soft: #D8CEB9;
+      --accent-2: #9D5E2D;
+      --text: #202020;
+      --muted: #6D6A66;
+      --line: rgba(32, 32, 32, .14);
+      --shadow: 0 20px 44px rgba(0, 0, 0, .12);
+      --danger: #9C5142;
+      --pattern: linear-gradient(180deg, #E5E5E2 0%, #D8D8D5 45%, #D1D1CD 100%);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--pattern);
+      background-attachment: fixed;
+      color: var(--text);
+      font-family: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 14px;
+      line-height: 1.58;
+      letter-spacing: 0;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .22;
+      background-image: radial-gradient(rgba(80,70,60,.16) .7px, transparent .8px);
+      background-size: 18px 18px;
+      mix-blend-mode: multiply;
+      z-index: -1;
+    }
+    body[data-theme="nebula"]::before {
+      opacity: .18;
+      background-image: radial-gradient(rgba(224,229,236,.62) .7px, transparent 1px);
+      background-size: 42px 42px;
+      mix-blend-mode: screen;
+    }
+    body[data-theme="coast"]::before {
+      opacity: .16;
+      background-image: radial-gradient(rgba(255,255,255,.55) 1px, transparent 1px);
+      background-size: 26px 26px;
+    }
+    body[data-theme="nebula"]::after {
+      display: none;
+    }
+    body[data-theme="alchemy"]::before {
+      opacity: .22;
+      background-image:
+        radial-gradient(circle at 18px 18px, rgba(60,45,30,.2) .8px, transparent .9px),
+        linear-gradient(30deg, transparent 48%, rgba(91,108,93,.08) 49% 51%, transparent 52%),
+        linear-gradient(150deg, transparent 48%, rgba(156,58,58,.055) 49% 51%, transparent 52%);
+      background-size: 24px 24px, 86px 86px, 86px 86px;
+    }
+    body[data-theme="alchemy"]::after {
+      content: "☉  ☽  △  ♄  ☿";
+      position: fixed;
+      right: 5vw;
+      top: 110px;
+      pointer-events: none;
+      color: rgba(91,108,93,.18);
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(2.2rem, 8vw, 6rem);
+      letter-spacing: .18em;
+      writing-mode: vertical-rl;
+      z-index: -1;
+    }
+    body[data-theme="alchemy"] .panel,
+    body[data-theme="alchemy"] .hero {
+      background-image: radial-gradient(circle at 16% 12%, rgba(156,58,58,.045), transparent 24%), linear-gradient(180deg, rgba(255,248,231,.42), transparent);
+    }
+    button, input, textarea, select { font: inherit; }
+    button { border: 0; cursor: pointer; }
+    input, textarea, select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: .78rem .9rem;
+      background: rgba(255,255,255,.88);
+      color: var(--text);
+      outline: none;
+    }
+    textarea { min-height: 100px; resize: vertical; }
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 22%, transparent);
+      background: #fff;
+    }
+    body[data-theme="nebula"] input,
+    body[data-theme="nebula"] textarea,
+    body[data-theme="nebula"] select {
+      background: rgba(238,244,250,.08);
+      color: var(--text);
+      border-color: rgba(157,182,207,.18);
+    }
+    body[data-theme="nebula"] input::placeholder,
+    body[data-theme="nebula"] textarea::placeholder {
+      color: rgba(238,244,250,.52);
+    }
+    body[data-theme="nebula"] input:focus,
+    body[data-theme="nebula"] textarea:focus,
+    body[data-theme="nebula"] select:focus {
+      background: rgba(238,244,250,.12);
+      box-shadow: 0 0 0 4px rgba(157,182,207,.1);
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      background: color-mix(in srgb, var(--bg) 82%, white);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(16px);
+    }
+    body[data-theme="nebula"] .topbar {
+      background: rgba(3, 9, 18, .42);
+      box-shadow: 0 1px 0 rgba(255,255,255,.05);
+      border-bottom-color: rgba(157,182,207,.16);
+    }
+    body[data-theme="nebula"] .topbar-inner {
+      margin-top: .55rem;
+      width: min(980px, calc(100% - 28px));
+      min-height: 58px;
+      border: 1px solid rgba(157,182,207,.18);
+      border-radius: 999px;
+      padding: .35rem .55rem .35rem .85rem;
+      background: rgba(7, 15, 27, .72);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 0 10px 34px rgba(0,0,0,.22);
+      backdrop-filter: blur(10px);
+    }
+    body[data-theme="nebula"] .brand-title,
+    body[data-theme="nebula"] .brand-sub,
+    body[data-theme="nebula"] .tab,
+    body[data-theme="nebula"] .account-pill {
+      text-shadow: none;
+    }
+    .topbar-inner {
+      width: min(1200px, calc(100% - 24px));
+      min-height: 66px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+    }
+    .brand { min-width: 132px; }
+    .brand-title {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(1.22rem, 2.4vw, 1.7rem);
+      font-weight: 700;
+      line-height: 1;
+      color: var(--text);
+    }
+    .brand-sub { color: var(--muted); font-size: .72rem; }
+    .tabs {
+      display: flex;
+      gap: .44rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+      flex: 1;
+      padding: .5rem 0;
+    }
+    .tabs::-webkit-scrollbar { display: none; }
+    .tab {
+      flex: 0 0 auto;
+      border-radius: 999px;
+      padding: .54rem .82rem;
+      background: color-mix(in srgb, var(--card) 82%, transparent);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: .78rem;
+      font-weight: 900;
+    }
+    .tab.active { background: var(--accent); color: color-mix(in srgb, var(--text) 8%, white); box-shadow: 0 10px 24px color-mix(in srgb, var(--accent) 25%, transparent); }
+    body[data-theme="nebula"] .tab.active { color: #07101C; }
+    body[data-theme="nebula"] .tab {
+      background: rgba(238,244,250,.035);
+      color: rgba(238,244,250,.72);
+      border-color: transparent;
+      font-family: "Courier New", monospace;
+      letter-spacing: .02em;
+    }
+    body[data-theme="nebula"] .tab.active {
+      background: #EEF4FA;
+      color: #08111E;
+      box-shadow: 0 0 28px rgba(157,182,207,.18);
+    }
+    .theme-wrap { position: relative; flex: 0 0 auto; }
+    .palette-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      display: grid;
+      place-items: center;
+      color: var(--text);
+      font-size: 1.15rem;
+    }
+    .theme-menu {
+      position: absolute;
+      right: 0;
+      top: 48px;
+      z-index: 55;
+      width: 220px;
+      padding: .72rem;
+      border-radius: 20px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      display: none;
+      gap: .5rem;
+    }
+    .theme-menu.open { display: grid; }
+    .theme-option {
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: .62rem;
+      align-items: center;
+      border-radius: 16px;
+      padding: .5rem;
+      background: color-mix(in srgb, var(--bg) 70%, white);
+      text-align: left;
+      color: var(--text);
+      font-weight: 900;
+    }
+    .swatch { height: 34px; border-radius: 12px; border: 1px solid rgba(0,0,0,.06); }
+    .swatch.garden { background: linear-gradient(135deg, #312A44 0 30%, #8870A3 30% 56%, #BAB0C8 56% 78%, #D7C5D6 78%); }
+    .swatch.coast { background: linear-gradient(135deg, #2A211B 0 30%, #7B5C47 30% 56%, #D8CEB9 56% 78%, #F1E8D7 78%); }
+    .swatch.nebula { background: linear-gradient(135deg, #030914 0 38%, #4C9CE8 38% 68%, #E2A477 68%); }
+    .swatch.alchemy { background: linear-gradient(135deg, #202020 0 30%, #4F6B4D 30% 58%, #9D5E2D 58% 78%, #D8D8D5 78%); }
+
+    .app {
+      width: min(1200px, calc(100% - 24px));
+      margin: 0 auto;
+      padding: 1rem 0 2rem;
+    }
+    body[data-theme="nebula"] .app {
+      width: min(1460px, calc(100% - 24px));
+      padding-top: 1.1rem;
+    }
+    .page { display: none; animation: rise .22s ease both; }
+    .page.active { display: block; }
+    @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+    .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+    .two-grid { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(320px, .92fr); gap: 1rem; }
+    .stack-layout { display: grid; gap: 1rem; }
+    .panel {
+      border-radius: var(--radius);
+      padding: 1.05rem;
+      background: var(--card);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+    body[data-theme="nebula"] .panel {
+      background: linear-gradient(180deg, rgba(18,27,43,.72), rgba(12,18,30,.58));
+      border-color: rgba(157,182,207,.18);
+    }
+    .panel + .panel { margin-top: 1rem; }
+    .hero {
+      min-height: 210px;
+      border-radius: 30px;
+      padding: clamp(1.2rem, 3vw, 2rem);
+      background: linear-gradient(135deg, color-mix(in srgb, var(--accent-soft) 82%, white), color-mix(in srgb, var(--card) 65%, var(--accent)));
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -60px;
+      top: -80px;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--accent-2) 34%, transparent);
+      filter: blur(12px);
+      pointer-events: none;
+    }
+    body[data-theme="nebula"] .hero {
+      min-height: min(760px, calc(100vh - 94px));
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      border-color: transparent;
+      box-shadow: none;
+      background:
+        linear-gradient(to top, rgba(1,7,14,.7) 0%, rgba(1,7,14,.32) 20%, rgba(1,7,14,.02) 52%, rgba(1,7,14,.08) 100%),
+        radial-gradient(ellipse at 50% 78%, rgba(255,183,118,.42), transparent 18%),
+        radial-gradient(ellipse at 50% 52%, rgba(137,189,238,.22), transparent 44%),
+        url("./cosmic-hero.png") center / cover no-repeat;
+      overflow: hidden;
+      margin-top: .35rem;
+    }
+    body[data-theme="nebula"] .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 50% 76%, rgba(255,190,126,.42), transparent 20%),
+        radial-gradient(ellipse at 50% 36%, rgba(159,211,255,.24), transparent 42%),
+        linear-gradient(102deg, transparent 18%, rgba(154,198,238,.08) 38%, transparent 58%),
+        linear-gradient(78deg, transparent 28%, rgba(255,178,112,.08) 46%, transparent 66%),
+        linear-gradient(to bottom, rgba(1,7,14,.04), rgba(1,7,14,.14) 62%, rgba(1,7,14,.58));
+      pointer-events: none;
+      mix-blend-mode: screen;
+    }
+    body[data-theme="nebula"] .hero::after {
+      display: none;
+    }
+    body[data-theme="nebula"] .hero > * {
+      position: relative;
+      z-index: 1;
+    }
+    body[data-theme="nebula"] .hero .pill {
+      display: none;
+      margin-inline: auto;
+      background: rgba(238,244,250,.13);
+      color: rgba(238,244,250,.86);
+      border: 1px solid rgba(157,182,207,.14);
+      font-family: "Courier New", monospace;
+      letter-spacing: .02em;
+    }
+    body[data-theme="nebula"] .hero > p.note {
+      display: none;
+    }
+    body[data-theme="nebula"] .hero .quote-top {
+      display: none;
+    }
+    body[data-theme="nebula"] .hero .row {
+      justify-content: center;
+      margin-top: 1rem;
+    }
+    body[data-theme="nebula"] .hero .row .pill {
+      min-height: 32px;
+      background: rgba(238,244,250,.1);
+    }
+    body[data-theme="nebula"] .hero h1 {
+      font-family: "Arial Black", "Orbitron", "Rajdhani", "Lato", sans-serif;
+      letter-spacing: .045em;
+      line-height: .86;
+      max-width: 1000px;
+      font-size: clamp(4.4rem, 8.2vw, 7.4rem);
+      font-weight: 900;
+      margin: .9rem auto 0;
+      color: rgba(238,244,250,.94);
+      -webkit-text-fill-color: rgba(238,244,250,.94);
+      text-transform: uppercase;
+      transform: scaleX(1.16);
+      text-shadow:
+        0 0 9px rgba(238,244,250,.92),
+        0 0 24px rgba(157,215,255,.58),
+        0 0 56px rgba(61,169,255,.36),
+        0 14px 44px rgba(0,0,0,.52);
+    }
+    .nebula-title { display: none; }
+    body[data-theme="nebula"] .standard-title { display: none; }
+    body[data-theme="nebula"] .nebula-title {
+      display: block;
+      color: rgba(238,244,250,.94);
+      -webkit-text-fill-color: rgba(238,244,250,.94);
+      filter: drop-shadow(0 0 18px rgba(157,199,237,.34));
+      position: relative;
+    }
+    body[data-theme="nebula"] .nebula-title::after {
+      content: "";
+      display: block;
+      width: min(520px, 78vw);
+      height: 1px;
+      margin: 20px auto 0;
+      background: linear-gradient(90deg, transparent, rgba(134,207,255,.88), rgba(255,176,100,.72), transparent);
+      box-shadow: 0 0 22px rgba(107,190,255,.62);
+    }
+    body[data-theme="nebula"] .brand-title {
+      font-family: "Courier New", monospace;
+      letter-spacing: -.03em;
+    }
+    h1, h2 {
+      margin: 0;
+      font-family: "Cormorant Garamond", serif;
+      letter-spacing: 0;
+      line-height: 1.1;
+      color: var(--text);
+    }
+    h1 { max-width: 780px; font-size: clamp(1.62rem, 4vw, 3rem); font-weight: 700; }
+    h2 { font-size: clamp(1.18rem, 2.1vw, 1.55rem); }
+    h3 { margin: 0 0 .4rem; color: var(--text); font-size: .98rem; }
+    p { margin: .32rem 0; }
+    .note, .muted { color: var(--muted); font-size: .84rem; }
+    .row { display: flex; gap: .6rem; align-items: center; flex-wrap: wrap; }
+    .between { display: flex; align-items: center; justify-content: space-between; gap: .8rem; }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 30px;
+      border-radius: 999px;
+      padding: .34rem .66rem;
+      background: var(--accent-soft);
+      color: var(--text);
+      font-size: .75rem;
+      font-weight: 900;
+    }
+    .primary, .soft, .ghost, .danger {
+      min-height: 42px;
+      border-radius: 999px;
+      padding: .72rem .94rem;
+      font-size: .82rem;
+      font-weight: 900;
+    }
+    .primary { background: var(--accent); color: #fff; }
+    .soft { background: var(--accent-soft); color: var(--text); }
+    .ghost { background: rgba(255,255,255,.72); color: var(--text); border: 1px solid var(--line); }
+    .danger { background: color-mix(in srgb, var(--danger) 11%, white); color: var(--danger); }
+    .form-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .65rem; align-items: end; margin-top: .8rem; }
+    .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .7rem; margin-top: .8rem; }
+    label { display: grid; gap: .35rem; color: var(--muted); font-size: .76rem; font-weight: 900; }
+    .list { display: grid; gap: .62rem; margin-top: .85rem; }
+    .item {
+      border-radius: 20px;
+      padding: .82rem;
+      background: color-mix(in srgb, var(--bg) 72%, white);
+      border: 1px solid var(--line);
+    }
+    body[data-theme="nebula"] .item {
+      background: rgba(238,244,250,.075);
+      border-color: rgba(157,182,207,.14);
+    }
+    .check-row {
+      display: grid;
+      grid-template-columns: auto minmax(0,1fr) auto;
+      gap: .7rem;
+      align-items: start;
+    }
+    .check {
+      appearance: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 9px;
+      border: 2px solid color-mix(in srgb, var(--accent) 55%, white);
+      background: #fff;
+      display: grid;
+      place-items: center;
+      margin-top: .1rem;
+    }
+    .check:checked { background: var(--accent); border-color: var(--accent); }
+    .check:checked::after { content: "✓"; color: #fff; font-weight: 900; }
+    .done { color: var(--muted); text-decoration: line-through; }
+    .meta { color: var(--muted); font-size: .74rem; display: flex; gap: .42rem; flex-wrap: wrap; margin-top: .35rem; }
+    .mini-actions { display: flex; gap: .35rem; flex-wrap: wrap; justify-content: flex-end; }
+    .score-chip {
+      min-width: 38px;
+      min-height: 34px;
+      border-radius: 999px;
+      padding: .3rem .58rem;
+      background: color-mix(in srgb, var(--accent-2) 48%, white);
+      color: var(--text);
+      border: 1px solid color-mix(in srgb, var(--accent-2) 52%, var(--line));
+      font-weight: 900;
+      font-size: .78rem;
+      box-shadow: none;
+    }
+    body[data-theme="nebula"] .score-chip {
+      background: rgba(216,155,114,.14);
+      color: var(--text);
+      border-color: rgba(216,155,114,.28);
+    }
+    .suggestion-card {
+      align-items: start;
+      gap: .85rem;
+    }
+    .suggestion-card .ghost { min-width: 70px; }
+    .log-row {
+      padding: .62rem .72rem;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: .16s ease;
+    }
+    .log-row:hover {
+      transform: translateY(-1px);
+      border-color: color-mix(in srgb, var(--accent) 38%, var(--line));
+      background: color-mix(in srgb, var(--card) 68%, var(--accent-soft));
+    }
+    .log-excerpt {
+      margin-top: .2rem;
+      color: var(--muted);
+      font-size: .82rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .diary-room {
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 12% 10%, color-mix(in srgb, var(--accent-2) 18%, transparent) 0 28px, transparent 29px),
+        radial-gradient(circle at 88% 18%, color-mix(in srgb, var(--accent) 16%, transparent) 0 36px, transparent 37px),
+        var(--card);
+    }
+    .diary-room::after {
+      content: "";
+      position: absolute;
+      right: 1rem;
+      bottom: .8rem;
+      width: 86px;
+      height: 58px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.34);
+      border: 1px solid rgba(255,255,255,.48);
+      transform: rotate(-4deg);
+      pointer-events: none;
+      box-shadow: 0 8px 20px rgba(70,75,75,.06);
+    }
+    .diary-month-head,
+    .diary-theme-card,
+    .status-legend,
+    .diary-weekdays,
+    .diary-calendar {
+      position: relative;
+      z-index: 1;
+    }
+    .diary-month-nav .ghost {
+      min-width: 42px;
+      padding-inline: .7rem;
+      font-size: 1.2rem;
+    }
+    .diary-focus-card,
+    .diary-plan-card {
+      display: grid;
+      gap: .55rem;
+      margin-top: .85rem;
+      padding: .82rem;
+      border-radius: 22px;
+      background: rgba(255,255,255,.58);
+      border: 1px solid color-mix(in srgb, var(--line) 72%, white);
+      box-shadow: 0 10px 24px rgba(70,75,75,.045);
+    }
+    .diary-focus-card {
+      text-align: center;
+      padding: 1rem .95rem;
+    }
+    .diary-card-title {
+      color: var(--muted);
+      font-size: .72rem;
+      font-weight: 900;
+    }
+    .diary-theme-display {
+      color: var(--text);
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(1.18rem, 2.4vw, 1.7rem);
+      font-weight: 700;
+      line-height: 1.18;
+    }
+    .diary-plan-display {
+      color: var(--text);
+      font-size: .88rem;
+      line-height: 1.65;
+      white-space: pre-wrap;
+    }
+    .diary-edit-btn {
+      min-width: 34px;
+      min-height: 34px;
+      padding: .35rem;
+      border-radius: 999px;
+      justify-self: end;
+      width: 34px;
+      flex: 0 0 34px;
+    }
+    .diary-editor-actions .primary,
+    .diary-editor-actions .soft {
+      flex: 1 1 180px;
+    }
+    .status-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .42rem;
+      margin-top: .8rem;
+    }
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: .32rem;
+      min-height: 28px;
+      border-radius: 999px;
+      padding: .28rem .54rem;
+      background: rgba(255,255,255,.62);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: .72rem;
+      font-weight: 900;
+    }
+    .status-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 999px;
+      display: inline-grid;
+      place-items: center;
+      background: var(--orb);
+      color: rgba(46,58,58,.72);
+      font-size: .52rem;
+      line-height: 1;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.45), 0 4px 10px color-mix(in srgb, var(--orb) 30%, transparent);
+    }
+    .diary-weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0,1fr));
+      gap: .42rem;
+      margin-top: .85rem;
+      color: var(--muted);
+      font-size: .72rem;
+      font-weight: 900;
+      text-align: center;
+    }
+    .diary-calendar {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0,1fr));
+      gap: .42rem;
+      margin-top: .42rem;
+    }
+    .diary-day {
+      min-height: 66px;
+      border-radius: 999px;
+      padding: .3rem;
+      background: transparent;
+      border: 0;
+      display: grid;
+      place-items: center;
+      color: var(--text);
+      cursor: pointer;
+      transition: transform .16s ease, border-color .16s ease, background .16s ease;
+    }
+    .diary-day:hover {
+      transform: translateY(-2px);
+    }
+    .diary-day.ghost-day {
+      opacity: 0;
+      cursor: default;
+      pointer-events: none;
+    }
+    .diary-day.today {
+      outline: 0;
+    }
+    .state-orb {
+      position: relative;
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: var(--orb);
+      color: rgba(46,58,58,.82);
+      font-size: .86rem;
+      font-weight: 900;
+      box-shadow: inset 0 2px 0 rgba(255,255,255,.5), 0 8px 18px color-mix(in srgb, var(--orb) 38%, transparent);
+    }
+    .diary-day.has-log .state-orb::after {
+      content: "";
+      position: absolute;
+      right: 5px;
+      bottom: 5px;
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.85);
+      box-shadow: 0 0 0 1px rgba(255,255,255,.42);
+    }
+    .diary-day.today .state-orb {
+      outline: 2px solid color-mix(in srgb, var(--accent-2) 60%, white);
+      outline-offset: 3px;
+    }
+    .state-orb.empty-orb {
+      background: rgba(255,255,255,.42);
+      border: 1px dashed var(--line);
+      box-shadow: none;
+      color: var(--muted);
+    }
+    .rich-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .35rem;
+      margin-top: .8rem;
+    }
+    .rich-toolbar button {
+      min-height: 34px;
+      border-radius: 999px;
+      padding: .35rem .62rem;
+      background: rgba(255,255,255,.72);
+      border: 1px solid var(--line);
+      color: var(--text);
+      font-weight: 900;
+    }
+    .rich-editor {
+      min-height: 300px;
+      margin-top: .55rem;
+      padding: .9rem;
+      border-radius: 22px;
+      background: color-mix(in srgb, var(--bg) 62%, white);
+      border: 1px solid var(--line);
+      color: var(--text);
+      outline: none;
+      line-height: 1.7;
+      overflow-wrap: anywhere;
+    }
+    .rich-editor:focus {
+      border-color: color-mix(in srgb, var(--accent) 42%, var(--line));
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-soft) 55%, transparent);
+    }
+    .icon-btn {
+      min-width: 34px;
+      min-height: 34px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.78);
+      color: var(--text);
+      border: 1px solid var(--line);
+      font-weight: 900;
+    }
+    .quote-top {
+      margin-top: .8rem;
+      border-radius: 22px;
+      padding: .9rem;
+      background: var(--card);
+      border: 1px solid var(--line);
+      color: var(--text);
+      font-weight: 900;
+    }
+    .story-box {
+      min-height: 170px;
+      border-radius: 22px;
+      padding: .95rem;
+      background: color-mix(in srgb, var(--accent-soft) 60%, white);
+      border: 1px solid var(--line);
+      white-space: pre-wrap;
+    }
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 70;
+      display: none;
+      place-items: center;
+      padding: 1rem;
+      background: rgba(40,45,45,.28);
+      backdrop-filter: blur(6px);
+    }
+    .modal.open { display: grid; }
+    .modal-card {
+      width: min(620px, 100%);
+      max-height: min(760px, 86vh);
+      overflow: auto;
+      border-radius: 28px;
+      padding: 1rem;
+      background: var(--card);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+    .progress-days { display: grid; grid-template-columns: repeat(7, minmax(0,1fr)); gap: .42rem; margin-top: .7rem; }
+    .day-dot {
+      min-height: 40px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: rgba(255,255,255,.76);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: .72rem;
+      font-weight: 900;
+    }
+    .day-dot.done { background: var(--accent); color: #fff; }
+    details {
+      border-radius: 20px;
+      padding: .85rem;
+      background: color-mix(in srgb, var(--bg) 75%, white);
+      border: 1px solid var(--line);
+    }
+    summary { cursor: pointer; font-weight: 900; color: var(--text); }
+    .empty {
+      border: 1px dashed var(--line);
+      border-radius: 20px;
+      padding: 1rem;
+      color: var(--muted);
+      text-align: center;
+      background: rgba(255,255,255,.48);
+    }
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 22px;
+      z-index: 90;
+      transform: translateX(-50%) translateY(20px);
+      opacity: 0;
+      pointer-events: none;
+      border-radius: 999px;
+      padding: .72rem 1rem;
+      background: rgba(46,58,58,.92);
+      color: #fff;
+      box-shadow: var(--shadow);
+      transition: .2s ease;
+      font-weight: 900;
+      font-size: .82rem;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .footer-tools {
+      margin-top: 1rem;
+      padding: 1rem;
+      text-align: center;
+    }
+    .hidden-file { display: none; }
+    .auth-locked .topbar,
+    .auth-locked .app {
+      display: none;
+    }
+    .auth-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+      display: none;
+      place-items: center;
+      padding: 1rem;
+      background: var(--bg);
+    }
+    .auth-locked .auth-screen {
+      display: grid;
+    }
+    .auth-card {
+      width: min(460px, 100%);
+      border-radius: 30px;
+      padding: 1.2rem;
+      background: var(--card);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+    .auth-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .65rem;
+      margin-top: .8rem;
+    }
+    .account-pill {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      gap: .45rem;
+    }
+    .account-pill span {
+      max-width: 120px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 920px) {
+      .topbar-inner { align-items: flex-start; flex-direction: column; padding: .7rem 0; }
+      .brand { width: 100%; }
+      .tabs { width: 100%; }
+      .theme-wrap { position: absolute; right: 12px; top: 12px; }
+      .grid, .two-grid { grid-template-columns: 1fr; }
+      body[data-theme="nebula"] .topbar-inner { border-radius: 26px; padding-right: 3.4rem; }
+      body[data-theme="nebula"] .hero h1 { font-size: clamp(1.55rem, 9vw, 2.7rem); }
+    }
+    @media (max-width: 560px) {
+      body { font-size: 13.5px; }
+      .app, .topbar-inner { width: min(100% - 18px, 1200px); }
+      .app { padding-top: .7rem; }
+      .hero { min-height: 180px; border-radius: 24px; padding: 1rem; }
+      h1 { font-size: clamp(1.55rem, 10vw, 2.35rem); }
+      h2 { font-size: 1.16rem; }
+      .panel { padding: .86rem; border-radius: 20px; }
+      .form-row, .form-grid { grid-template-columns: 1fr; }
+      .primary, .soft, .ghost, .danger { width: 100%; }
+      .auth-actions { grid-template-columns: 1fr; }
+      .between { align-items: stretch; flex-direction: column; }
+      .mini-actions { justify-content: stretch; }
+      .mini-actions button { flex: 1; }
+      .account-pill { width: 100%; overflow-x: auto; padding-bottom: .2rem; }
+      .account-pill span:not(#accountName) { display: none; }
+      .account-pill .ghost { width: auto; flex: 1; min-height: 34px; padding: .45rem .6rem; }
+      .theme-menu { width: min(260px, calc(100vw - 24px)); }
+      .score-chip { width: auto; flex: 0 0 auto; }
+      .check-row { grid-template-columns: auto minmax(0,1fr); }
+      .check-row > .mini-actions { grid-column: 1 / -1; }
+      .diary-month-head { align-items: center; flex-direction: row; }
+      .diary-month-nav { flex-wrap: nowrap; }
+      .diary-month-nav .ghost { width: auto; flex: 0 0 42px; }
+      .diary-focus-card, .diary-plan-card { padding: .72rem; }
+      .diary-weekdays, .diary-calendar { gap: .28rem; }
+      .diary-day {
+        min-height: 58px;
+        border-radius: 14px;
+        padding: .34rem .24rem;
+      }
+      .state-orb { width: 24px; height: 24px; font-size: .62rem; }
+      .status-legend { gap: .32rem; }
+      .status-pill { font-size: .66rem; padding: .24rem .42rem; }
+      body[data-theme="nebula"] .hero h1 {
+        background-image: none;
+        color: var(--text);
+        -webkit-text-fill-color: var(--text);
+        text-shadow: 0 0 24px rgba(238,244,250,.2);
+      }
+      body[data-theme="nebula"] .topbar-inner { border-radius: 24px; }
+    }
+    /* Applied visual direction overrides */
+    body[data-theme="garden"] .brand-title::before { content: "LUMINA ROOM"; font-family: "Cormorant Garamond", serif; }
+    body[data-theme="coast"] .brand-title::before { content: "CREATOR TEA"; font-family: "Cormorant Garamond", serif; }
+    body[data-theme="alchemy"] .brand-title::before { content: "CREATOR"; font-family: "Lato", sans-serif; font-weight: 900; letter-spacing: -.02em; }
+    body[data-theme="nebula"] .brand-title::before { content: "NEXUS CREATOR"; font-family: "Orbitron", "Courier New", monospace; letter-spacing: .03em; }
+    body[data-theme="garden"] .brand-title,
+    body[data-theme="coast"] .brand-title,
+    body[data-theme="alchemy"] .brand-title,
+    body[data-theme="nebula"] .brand-title { font-size: 0; }
+    body[data-theme="garden"] .brand-title::before,
+    body[data-theme="coast"] .brand-title::before,
+    body[data-theme="alchemy"] .brand-title::before,
+    body[data-theme="nebula"] .brand-title::before { font-size: clamp(1.15rem, 2.1vw, 1.55rem); }
+
+    body[data-theme="garden"] .brand-sub::before { content: "水晶、手账与私人显化房间"; }
+    body[data-theme="coast"] .brand-sub::before { content: "安静日常，稳定内在系统"; }
+    body[data-theme="alchemy"] .brand-sub::before { content: "Identity works / daily system"; }
+    body[data-theme="nebula"] .brand-sub::before { content: "Reality coordinates online"; }
+    body[data-theme] .brand-sub { font-size: 0; }
+    body[data-theme] .brand-sub::before { font-size: .72rem; }
+
+    body:not([data-theme="nebula"]) #home .hero {
+      min-height: 390px;
+      display: grid;
+      grid-template-columns: minmax(320px, 1.05fr) minmax(330px, .95fr);
+      gap: 0;
+      padding: 0;
+      border-radius: 0;
+      overflow: hidden;
+    }
+    body:not([data-theme="nebula"]) #home .hero::after { display: none; }
+    body:not([data-theme="nebula"]) #home .hero::before {
+      content: "";
+      grid-column: 1;
+      grid-row: 1 / span 2;
+      min-height: 390px;
+      position: relative;
+      z-index: 0;
+    }
+    body:not([data-theme="nebula"]) #home .hero > div:first-child {
+      grid-column: 2;
+      grid-row: 1;
+      align-self: end;
+      padding: clamp(1.8rem, 4vw, 3.5rem) clamp(1.4rem, 4vw, 3.5rem) 1rem;
+      position: relative;
+      z-index: 1;
+    }
+    body:not([data-theme="nebula"]) #home .hero > .row {
+      grid-column: 2;
+      grid-row: 2;
+      align-self: start;
+      padding: 0 clamp(1.4rem, 4vw, 3.5rem) clamp(1.8rem, 4vw, 3rem);
+      position: relative;
+      z-index: 1;
+    }
+    body:not([data-theme="nebula"]) #home .hero .pill:first-child {
+      background: transparent;
+      padding: 0;
+      color: var(--muted);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    body[data-theme="garden"] #home .hero .pill:first-child,
+    body[data-theme="coast"] #home .hero .pill:first-child,
+    body[data-theme="alchemy"] #home .hero .pill:first-child {
+      font-size: 0;
+    }
+    body[data-theme="garden"] #home .hero .pill:first-child::before {
+      content: "SOFT PRIVATE OPERATING ROOM";
+      font-size: .72rem;
+    }
+    body[data-theme="coast"] #home .hero .pill:first-child::before {
+      content: "QUIET RITUAL SYSTEM";
+      font-size: .72rem;
+    }
+    body[data-theme="alchemy"] #home .hero .pill:first-child::before {
+      content: "DESIGNED TO HOLD IDENTITY";
+      font-size: .72rem;
+    }
+    body:not([data-theme="nebula"]) #home .hero h1 {
+      font-size: clamp(2.3rem, 4.8vw, 4.15rem);
+      line-height: 1.02;
+      max-width: 560px;
+    }
+    body[data-theme="garden"] #home .hero h1,
+    body[data-theme="coast"] #home .hero h1,
+    body[data-theme="alchemy"] #home .hero h1 {
+      font-size: 0;
+    }
+    body[data-theme="garden"] #home .hero h1::before,
+    body[data-theme="coast"] #home .hero h1::before,
+    body[data-theme="alchemy"] #home .hero h1::before {
+      display: block;
+      font-size: clamp(2.45rem, 5vw, 4.65rem);
+      line-height: 1.02;
+      letter-spacing: .01em;
+      color: var(--text);
+    }
+    body[data-theme="garden"] #home .hero h1::before {
+      content: "Return to the room where everything is already yours.";
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 600;
+    }
+    body[data-theme="coast"] #home .hero h1::before {
+      content: "Give The Gift of Inner Stability";
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 700;
+    }
+    body[data-theme="alchemy"] #home .hero h1::before {
+      content: "A system designed to hold identity while the world recalculates.";
+      font-family: "Lato", sans-serif;
+      font-weight: 900;
+      letter-spacing: -.04em;
+    }
+    body[data-theme="garden"] #home .hero h1::after,
+    body[data-theme="coast"] #home .hero h1::after,
+    body[data-theme="alchemy"] #home .hero h1::after {
+      display: block;
+      max-width: 460px;
+      margin-top: 1.35rem;
+      font-family: "Lato", sans-serif;
+      font-size: .92rem;
+      font-weight: 500;
+      line-height: 1.7;
+      letter-spacing: 0;
+      color: var(--muted);
+    }
+    body[data-theme="garden"] #home .hero h1::after {
+      content: "适合做默认温柔主题：有真实桌面，有秩序，有一点奢华，但整体仍然是安静、可爱的私人空间。";
+    }
+    body[data-theme="coast"] #home .hero h1::after {
+      content: "适合任务、routine、释放法这些稳定系统的页面。安静、低压、每天都能回到自己。";
+    }
+    body[data-theme="alchemy"] #home .hero h1::after {
+      content: "适合更理性、更高级的作品集模式。功能页面像一套安静的身份实验系统。";
+    }
+    body[data-theme="garden"] #home .hero .note,
+    body[data-theme="garden"] #home .hero .quote-top,
+    body[data-theme="coast"] #home .hero .note,
+    body[data-theme="coast"] #home .hero .quote-top,
+    body[data-theme="alchemy"] #home .hero .note,
+    body[data-theme="alchemy"] #home .hero .quote-top {
+      display: none;
+    }
+    body:not([data-theme="nebula"]) #home .hero .note {
+      max-width: 430px;
+      margin-top: 1rem;
+      font-size: .92rem;
+    }
+    body:not([data-theme="nebula"]) #home .hero .quote-top {
+      max-width: 520px;
+      margin-top: 1.35rem;
+      background: color-mix(in srgb, var(--card) 78%, white);
+      border: 1px solid var(--line);
+    }
+    body:not([data-theme="nebula"]) #home .hero > .row .pill {
+      background: color-mix(in srgb, var(--accent-soft) 65%, white);
+      color: var(--text);
+    }
+
+    body[data-theme="garden"] #home .hero {
+      background:
+        radial-gradient(circle at 78% 20%, rgba(186,176,200,.34), transparent 28%),
+        linear-gradient(90deg, rgba(245,236,246,.9), rgba(215,197,216,.88));
+    }
+    body[data-theme="garden"] #home .hero::before {
+      background:
+        linear-gradient(90deg, rgba(245,236,246,.06), rgba(245,236,246,.28)),
+        url("./crystal-room-hero.png") center / cover no-repeat;
+      box-shadow: inset -22px 0 42px rgba(49,42,68,.12);
+    }
+
+    body[data-theme="coast"] #home .hero {
+      background: linear-gradient(90deg, #5A4538, #3A2B24);
+      color: #FFF4E6;
+    }
+    body[data-theme="coast"] #home .hero h1,
+    body[data-theme="coast"] #home .hero .note,
+    body[data-theme="coast"] #home .hero .pill:first-child { color: #FFF4E6; }
+    body[data-theme="coast"] #home .hero::before {
+      background:
+        radial-gradient(ellipse at 24% 32%, rgba(255,255,255,.13), transparent 20%),
+        radial-gradient(ellipse at 62% 55%, rgba(180,132,88,.38), transparent 28%),
+        linear-gradient(90deg, rgba(255,255,255,.07) 1px, transparent 1px),
+        linear-gradient(rgba(255,255,255,.07) 1px, transparent 1px),
+        linear-gradient(120deg, #6B5143, #3A2B24);
+      background-size: auto, auto, 34px 34px, 34px 34px, auto;
+    }
+    body[data-theme="coast"] #home .hero::before {
+      clip-path: inset(0);
+    }
+    body[data-theme="coast"] #home .hero > div:first-child::before,
+    body[data-theme="coast"] #home .hero > div:first-child::after {
+      content: "";
+      position: absolute;
+      pointer-events: none;
+      z-index: -1;
+    }
+    body[data-theme="coast"] #home .hero > div:first-child::before {
+      width: 150px;
+      height: 96px;
+      left: -58%;
+      top: 54%;
+      border-radius: 50% 50% 42% 42%;
+      background: #211713;
+      box-shadow: 0 26px 52px rgba(0,0,0,.24);
+    }
+    body[data-theme="coast"] #home .hero > div:first-child::after {
+      width: 126px;
+      height: 156px;
+      left: -84%;
+      top: 20%;
+      border-radius: 18px;
+      background: #3A2922;
+      box-shadow: 0 26px 52px rgba(0,0,0,.24);
+    }
+
+    body[data-theme="alchemy"] #home .hero {
+      background: #D8D8D5;
+      border-radius: 18px;
+    }
+    body[data-theme="alchemy"] #home .hero::before {
+      margin: 2rem;
+      min-height: 320px;
+      border: 10px solid #FBF5E9;
+      border-radius: 15px;
+      content: "ORYZO";
+      display: flex;
+      align-items: flex-start;
+      padding: 2rem;
+      color: #FBEDD8;
+      font-family: "Lato", sans-serif;
+      font-size: clamp(4rem, 7vw, 6.2rem);
+      line-height: .8;
+      font-weight: 900;
+      letter-spacing: -.07em;
+      background:
+        radial-gradient(circle at 74% 43%, #D09A61 0 13%, #BD7136 13.5% 24%, transparent 24.5%),
+        linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px),
+        linear-gradient(120deg, #526D50, #3F5A40);
+      background-size: auto, 28px 28px, 28px 28px, auto;
+      box-shadow: 0 22px 44px rgba(0,0,0,.14);
+    }
+    body[data-theme="alchemy"] #home .hero h1 {
+      font-family: "Lato", sans-serif;
+      font-weight: 900;
+      letter-spacing: -.04em;
+    }
+
+    body[data-theme="nebula"] #home .hero {
+      background:
+        linear-gradient(to top, rgba(1,7,14,.7) 0%, rgba(1,7,14,.28) 22%, rgba(1,7,14,.02) 52%, rgba(1,7,14,.08) 100%),
+        radial-gradient(ellipse at 50% 78%, rgba(255,183,118,.48), transparent 20%),
+        radial-gradient(ellipse at 50% 52%, rgba(137,189,238,.26), transparent 44%),
+        url("./cosmic-hero.png") center / cover no-repeat;
+    }
+
+    #home > .two-grid {
+      margin-top: 1rem;
+    }
+    body[data-theme="coast"] #home > .two-grid,
+    body[data-theme="garden"] #home > .two-grid,
+    body[data-theme="alchemy"] #home > .two-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    body:not([data-theme="nebula"]) #home > .two-grid > .panel,
+    body:not([data-theme="nebula"]) #home > .panel {
+      border-radius: 18px;
+    }
+    body[data-theme="coast"] #home > .two-grid > .panel,
+    body[data-theme="coast"] #home > .panel {
+      background: rgba(255, 248, 237, .88);
+    }
+    body[data-theme="alchemy"] #home > .two-grid > .panel,
+    body[data-theme="alchemy"] #home > .panel {
+      border-radius: 14px;
+      box-shadow: 0 18px 38px rgba(0,0,0,.1);
+    }
+
+    @media (max-width: 820px) {
+      body:not([data-theme="nebula"]) #home .hero {
+        grid-template-columns: 1fr;
+      }
+      body:not([data-theme="nebula"]) #home .hero::before {
+        grid-column: 1;
+        grid-row: 1;
+        min-height: 240px;
+      }
+      body:not([data-theme="nebula"]) #home .hero > div:first-child,
+      body:not([data-theme="nebula"]) #home .hero > .row {
+        grid-column: 1;
+      }
+      body:not([data-theme="nebula"]) #home .hero > div:first-child {
+        grid-row: 2;
+      }
+      body:not([data-theme="nebula"]) #home .hero > .row {
+        grid-row: 3;
+      }
+      body[data-theme="alchemy"] #home .hero::before {
+        margin: 1rem;
+        min-height: 220px;
+      }
+      body[data-theme="coast"] #home .hero > div:first-child::before,
+      body[data-theme="coast"] #home .hero > div:first-child::after {
+        display: none;
+      }
+    }
+
+    .page-stack {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    #barbados .page-stack > .panel,
+    #release .page-stack > .panel {
+      margin: 0;
+    }
+    #barbados .panel:first-child,
+    #release .panel:first-child {
+      max-width: none;
+    }
+    #barbados .form-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    #barbados #successList {
+      gap: .45rem;
+    }
+    #barbados #successList .item.check-row {
+      padding: .55rem .7rem;
+      border-radius: 14px;
+      min-height: 48px;
+    }
+    #barbados #successList .item.check-row .note {
+      margin-top: .16rem;
+    }
+
+    #release .release-stack > .panel:first-child {
+      display: grid;
+      gap: .72rem;
+    }
+    #release .release-stack details {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: .75rem .9rem;
+      background: color-mix(in srgb, var(--bg) 64%, white);
+    }
+    #release .release-stack summary {
+      cursor: pointer;
+      font-weight: 900;
+    }
+    #releaseList {
+      gap: .38rem;
+    }
+    #releaseList > .item {
+      padding: .38rem .5rem;
+      border-radius: 14px;
+      min-height: 44px;
+    }
+    #releaseList > .item > .between {
+      align-items: center !important;
+      gap: .55rem !important;
+    }
+    #releaseList .release-card {
+      min-width: 0;
+    }
+    #releaseList .release-card summary {
+      display: block;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      line-height: 1.3;
+      font-size: .88rem;
+    }
+    #releaseList .release-card[open] summary {
+      white-space: normal;
+    }
+    #releaseList > .item > .between > div:last-child {
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      gap: .32rem !important;
+      flex: 0 0 auto;
+    }
+    #releaseList label {
+      min-height: 32px;
+      padding: .28rem .5rem !important;
+      font-size: .74rem !important;
+    }
+    #releaseList input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      padding: 0;
+    }
+    #releaseList .icon-btn {
+      width: 32px;
+      height: 32px;
+      min-height: 32px;
+      border-radius: 999px;
+    }
+    #releaseList .soft[data-reactivate-release] {
+      min-height: 32px;
+      padding: .28rem .55rem !important;
+      font-size: .74rem;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 720px) {
+      #barbados .form-grid {
+        grid-template-columns: 1fr;
+      }
+      #releaseList > .item > .between {
+        align-items: flex-start !important;
+      }
+      #releaseList > .item > .between > div:last-child {
+        flex-wrap: nowrap;
+      }
+      #releaseList label {
+        font-size: 0 !important;
+        width: 32px;
+        justify-content: center;
+      }
+    }
+    /* Final hero polish */
+    body[data-theme="garden"] #home .hero h1::after,
+    body[data-theme="coast"] #home .hero h1::after,
+    body[data-theme="alchemy"] #home .hero h1::after {
+      display: none;
+      content: "";
+    }
+
+    body[data-theme="nebula"] .app {
+      width: 100%;
+      padding-top: 0;
+    }
+    body[data-theme="nebula"] #home .hero {
+      width: 100vw;
+      min-height: calc(100vh - 74px);
+      margin: 0 0 1rem calc(50% - 50vw);
+      border-radius: 0;
+      border-left: 0;
+      border-right: 0;
+      background:
+        linear-gradient(180deg, rgba(235,246,255,.22) 0%, rgba(175,211,244,.12) 34%, rgba(255,198,140,.18) 68%, rgba(1,7,14,.7) 100%),
+        radial-gradient(ellipse at 50% 72%, rgba(255,190,126,.55), transparent 23%),
+        radial-gradient(ellipse at 50% 40%, rgba(155,215,255,.28), transparent 48%),
+        url("./cosmic-hero.png") center / cover no-repeat;
+    }
+    body[data-theme="nebula"] #home .hero::before {
+      background:
+        linear-gradient(180deg, rgba(245,250,255,.2), rgba(188,218,245,.08) 42%, rgba(255,198,140,.16) 72%, rgba(1,7,14,.38)),
+        radial-gradient(ellipse at 50% 74%, rgba(255,221,180,.38), transparent 24%),
+        radial-gradient(ellipse at 50% 37%, rgba(157,217,255,.28), transparent 42%);
+      mix-blend-mode: screen;
+    }
+    body[data-theme="nebula"] #home .two-grid,
+    body[data-theme="nebula"] #home > .panel,
+    body[data-theme="nebula"] .footer-tools {
+      width: min(1200px, calc(100% - 24px));
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    @media (max-width: 820px) {
+      body[data-theme="nebula"] #home .hero {
+        min-height: calc(100vh - 70px);
+      }
+    }
+  </style>
+</head>
+<body class="auth-locked" data-theme="garden">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="brand-title">创造者日志</div>
+        <div class="brand-sub">活在终点，回到自己</div>
+      </div>
+      <nav class="tabs">
+        <button class="tab active" data-page="home">主页</button>
+        <button class="tab" data-page="tasks">任务板</button>
+        <button class="tab" data-page="end">活在终点</button>
+        <button class="tab" data-page="diary">显化日记</button>
+        <button class="tab" data-page="barbados">我的巴巴多斯</button>
+        <button class="tab" data-page="release">目标释放</button>
+        <button class="tab" data-page="sats">SATS</button>
+      </nav>
+      <div class="theme-wrap">
+        <button class="palette-btn" id="paletteBtn" aria-label="切换主题">◐</button>
+        <div class="theme-menu" id="themeMenu">
+          <button class="theme-option" data-theme="garden"><span class="swatch garden"></span><span>花园静物</span></button>
+          <button class="theme-option" data-theme="coast"><span class="swatch coast"></span><span>海岸午餐</span></button>
+          <button class="theme-option" data-theme="nebula"><span class="swatch nebula"></span><span>星穹控制室</span></button>
+          <button class="theme-option" data-theme="alchemy"><span class="swatch alchemy"></span><span>羊皮炼金</span></button>
+        </div>
+      </div>
+      <div class="account-pill">
+        <span class="pill" id="accountName">未登录</span>
+        <span class="pill" id="syncStatus">未同步</span>
+        <button class="ghost" id="syncNowBtn" style="min-height:38px;padding:.5rem .7rem;">同步</button>
+        <button class="ghost" id="logoutBtn" style="min-height:38px;padding:.5rem .7rem;">退出</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="app">
+    <section class="page active" id="home">
+      <div class="hero">
+        <div>
+          <p class="pill">核心身份</p>
+          <h1><span class="standard-title">我是现实的创造者，这是一个完全有利于我的世界。</span><span class="nebula-title">Hello, Creator!</span></h1>
+          <p class="note">我不是追逐证据的人。我是选择剧本的人。</p>
+          <div class="quote-top" id="todayAffirmation">今日肯定：我值得被爱，无需证明。</div>
+        </div>
+        <div class="row">
+          <span class="pill" id="homePoints">积分 0</span>
+          <span class="pill" id="taskToday">今日任务 0</span>
+          <span class="pill" id="satsStreak">SATS 连续 0 天</span>
+        </div>
+      </div>
+
+      <div class="two-grid">
+        <section class="panel">
+          <div class="between">
+            <div>
+              <h2>自我圣殿</h2>
+              <p class="note">SC 不是证明自己够好，而是每天回到“我本来就值得”。</p>
+            </div>
+            <button class="ghost" id="editScBtn">编辑宣言</button>
+          </div>
+          <div class="quote-top" id="scDeclaration">我的身体是一座圣殿</div>
+          <div class="list" id="scPracticeList"></div>
+          <div class="quote-top" id="weeklyScNote" style="display:none;"></div>
+        </section>
+
+        <section class="panel">
+          <h2>今日概览</h2>
+          <p class="note">任务、SATS 与成功事件会在各自板块里记录。主页只保留轻量入口，避免信息过载。</p>
+          <div class="list">
+            <button class="soft" data-jump="tasks">查看任务板与 Routine</button>
+            <button class="soft" data-jump="barbados">查看我的巴巴多斯</button>
+          </div>
+        </section>
+      </div>
+
+      <section class="panel" style="margin-top:1rem;">
+        <h2>显化原理</h2>
+        <p class="note">Just assume what you want is true, and the old story is no longer the case.</p>
+        <div class="grid" style="margin-top:.85rem;">
+          <article class="item">
+            <span class="pill">第一</span>
+            <h3 style="margin-top:.55rem;">假设法则一直在运行。</h3>
+          </article>
+          <article class="item">
+            <span class="pill">第二</span>
+            <h3 style="margin-top:.55rem;">你是自己现实的创造者。</h3>
+          </article>
+          <article class="item">
+            <span class="pill">第三</span>
+            <h3 style="margin-top:.55rem;">显化不是过程，而是瞬间完成的。</h3>
+          </article>
+        </div>
+      </section>
+
+      <div class="grid" style="margin-top:1rem;">
+        <section class="panel">
+          <div class="between">
+            <div>
+              <h2>我的巴巴多斯</h2>
+              <p class="note">最近3条成功记录，以及累计登岛次数。</p>
+            </div>
+            <span class="pill" id="barbadosTotal">已登岛 0 次</span>
+          </div>
+          <div class="list" id="barbadosPreview"></div>
+          <button class="primary" data-jump="barbados" style="margin-top:.8rem;">前往我的巴巴多斯 →</button>
+        </section>
+        <section class="panel">
+          <h2>显化日记</h2>
+          <p class="quote-top">我已经在巴巴多斯了</p>
+          <div class="list" id="diaryPreview"></div>
+          <button class="soft" data-jump="diary" style="margin-top:.8rem;">写今日手记</button>
+        </section>
+        <section class="panel">
+          <h2>快速入口</h2>
+          <div class="list">
+            <button class="soft" data-jump="tasks">任务板与日常仪式</button>
+            <button class="soft" data-jump="end">生成新故事</button>
+            <button class="soft" data-jump="sats">补记 SATS</button>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="page" id="tasks">
+      <section class="panel" style="margin-bottom:1rem;">
+        <div class="between">
+          <div>
+            <h2>我的日常仪式</h2>
+            <p class="note">选择一个 Routine 后会固定在任务板最上方。可以随时编辑、替换，完成全部步骤 +10 分。</p>
+          </div>
+          <button class="primary" id="openRoutineEditorBtn">编辑 / 替换 Routine</button>
+        </div>
+        <div class="list" id="activeRoutineList"></div>
+      </section>
+
+      <div class="two-grid">
+        <section class="panel">
+          <div class="between">
+            <div>
+              <h2>今日任务</h2>
+              <p class="note">每日自动清空勾选状态；长期任务不用重建。</p>
+            </div>
+            <div class="row">
+              <span class="pill" id="taskPoints">积分 0</span>
+              <button class="primary" id="openRewardBtn">奖励商店</button>
+            </div>
+          </div>
+          <div class="form-row" style="grid-template-columns:minmax(0,1fr) 86px auto;">
+            <input id="taskInput" placeholder="添加长期有效任务" />
+            <input id="taskPointInput" type="number" min="0" max="99" value="5" aria-label="任务积分" title="完成后获得的积分" />
+            <button class="primary" id="addTaskBtn">添加</button>
+          </div>
+          <div class="list" id="taskList"></div>
+        </section>
+        <aside class="panel">
+          <h2>系统任务建议</h2>
+          <p class="note">挑顺眼的加入任务板。</p>
+          <div class="list" id="taskSuggestions"></div>
+          <button class="soft" id="refreshTaskSuggestions" style="margin-top:.8rem;">换一组</button>
+        </aside>
+      </div>
+    </section>
+
+    <section class="page" id="diary">
+      <div class="stack-layout">
+        <section class="panel">
+          <p class="pill">显化日记</p>
+          <h1 style="color:var(--text);">我已经在巴巴多斯了</h1>
+          <p class="note">这里不检讨，不复盘旧故事，只记录：我如何越来越自然地住进新现实。</p>
+          <label style="margin-top:1rem;">今日手记
+            <textarea id="dailyLogInput" placeholder="今天，我已经在巴巴多斯了。"></textarea>
+          </label>
+          <div class="row diary-editor-actions" style="margin-top:.7rem;">
+            <button class="primary" id="saveDailyLogBtn">保存手记</button>
+            <button class="soft" type="button" data-scroll-target="diaryMonthReview">看月度回顾 ↓</button>
+          </div>
+        </section>
+        <aside class="panel diary-room" id="diaryMonthReview">
+          <div class="between diary-month-head">
+            <div>
+              <p class="pill">月度回顾</p>
+              <h2 id="diaryMonthLabel">This Month</h2>
+            </div>
+            <div class="mini-actions diary-month-nav">
+              <button class="ghost" id="prevDiaryMonth" type="button">‹</button>
+              <button class="ghost" id="nextDiaryMonth" type="button">›</button>
+            </div>
+          </div>
+          <div class="diary-focus-card">
+            <button class="ghost diary-edit-btn" id="editDiaryThemeBtn" type="button" title="编辑本月主题">✎</button>
+            <div class="diary-card-title">本月主题</div>
+            <div class="diary-theme-display" id="diaryMonthThemeDisplay">June：I am the woman who has it all.</div>
+          </div>
+          <div class="diary-plan-card">
+            <div class="between" style="align-items:center;">
+              <div class="diary-card-title">本月安排</div>
+              <button class="ghost diary-edit-btn" id="editDiaryPlanBtn" type="button" title="编辑本月安排">✎</button>
+            </div>
+            <div class="diary-plan-display" id="diaryMonthPlanDisplay">这个月，我温柔地住进新身份里。</div>
+          </div>
+          <div class="status-legend" id="statusLegend"></div>
+          <div class="diary-weekdays">
+            <span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span>
+          </div>
+          <div class="diary-calendar" id="dailyLogList"></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="page" id="barbados">
+      <div class="stack-layout page-stack">
+        <section class="panel">
+          <h1 style="color:var(--text);">我的巴巴多斯</h1>
+          <p style="margin-top:.55rem; color:var(--muted); font-size:.92rem; font-weight:700;">“我已经在巴巴多斯了。” —— 内维尔·戈达德</p>
+          <div class="quote-top" id="barbadosStats">已登岛 0 次</div>
+          <div class="form-grid">
+            <label>事件标题
+              <input id="successTitle" maxlength="40" placeholder="写下事件标题" />
+            </label>
+            <label>落地日期
+              <input id="successDate" type="date" />
+            </label>
+            <label>落地积分
+              <input id="successPoints" type="number" min="0" max="999" value="10" />
+            </label>
+          </div>
+          <label style="margin-top:.75rem;">详细描述（可选）
+            <textarea id="successDescription" placeholder="简单写下它如何落地。"></textarea>
+          </label>
+          <button class="primary" id="addSuccessBtn" style="margin-top:.8rem;">添加成功事件</button>
+        </section>
+        <aside class="panel">
+          <h2>成功事件列表</h2>
+          <div class="list" id="successList"></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="page" id="end">
+      <div class="two-grid">
+        <section class="panel">
+          <h2>活在终点</h2>
+          <p class="note">输入一个具体终点画面：谁，在什么场景，做了什么。系统会优先保留你的原始情节，再补充触觉、听觉、动作和情绪。</p>
+          <label>终点愿景（200字以内）
+            <textarea id="visionInput" maxlength="200" placeholder="例如：我的伴侣每天早上给我做早餐，亲吻我额头后去上班"></textarea>
+          </label>
+          <div class="row" style="margin-top:.7rem;">
+            <button class="primary" id="generateStoryBtn">生成故事</button>
+            <button class="ghost" id="saveStoryBtn">保存故事</button>
+          </div>
+          <label style="margin-top:.8rem;">生成的新故事（可编辑）
+            <textarea id="storyOutput" style="min-height:220px;"></textarea>
+          </label>
+        </section>
+        <aside class="panel">
+          <h2>已保存故事</h2>
+          <div class="list" id="savedStories"></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="page" id="release">
+      <div class="stack-layout page-stack release-stack">
+        <section class="panel">
+          <h2>目标释放</h2>
+          <details open>
+            <summary>黄金六步骤（莱斯特原始版）</summary>
+            <ol>
+              <li>你必须想要自由或实现目标，超过想要被认同和想要控制。</li>
+              <li>下定决心，并通过释放获得自由或实现你的目标。</li>
+              <li>看见所有的感受都来自想要被认同和想要控制，它们都是生存程序，然后释放它们。</li>
+              <li>持续释放。无论在独处或人群中，持续释放你所有的想要被认同和想要控制。</li>
+              <li>当你卡住（感觉释放不下去）时，释放想要改变这个“卡住”状况的欲望。</li>
+              <li>每次释放，你都变得更愉悦、更轻松、更脱离限制。随着持续释放，这份轻松和愉悦会不断加深。</li>
+            </ol>
+          </details>
+          <details open style="margin-top:.8rem;">
+            <summary>释放操作指南 · 核心三问句</summary>
+            <div class="quote-top">
+              <b>释放法的核心步骤：</b><br>
+              我能允许/欢迎这个感觉存在吗？<br>
+              我能放下它吗？<br>
+              什么时候？（答：现在）
+            </div>
+            <div class="note" style="margin-top:.75rem;">
+              <p><b>目标释放的意图 · 表层（工具性）：</b>把目标当“钩子”，勾出潜意识的抗拒、负面感觉，借此清理内心障碍。实现目标不是首要目的，促进深度净化才是。</p>
+              <p><b>目标释放的意图 · 深层（根本性）：</b>通往终极自由。目标是工具，最终要达成“毫不在意”（CAP）——无论目标是否实现，内心都平静、本自具足。还要通过“反面释放”放下对“求不得”的厌恶，彻底解脱。</p>
+            </div>
+          </details>
+          <div class="form-row">
+            <input id="releaseInput" placeholder="例如：害怕他离开我" />
+            <button class="primary" id="addReleaseBtn">添加目标</button>
+          </div>
+        </section>
+        <aside class="panel">
+          <h2>释放目标列表</h2>
+          <div class="list" id="releaseList"></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="page" id="sats">
+      <div class="two-grid">
+        <section class="panel">
+          <h2>SATS 补记</h2>
+          <p class="note">不在睡前打卡。第二天早上或任意时间点击“昨晚我做了 SATS”，系统按实际完成日期计算连续天数。</p>
+          <div class="quote-top">SATS 是睡前半梦半醒状态下的想象：身体放松，闭合双眼，进入一个简单的触觉/听觉场景。</div>
+          <label style="margin-top:.8rem;">选择历史场景
+            <select id="satsSceneSelect"></select>
+          </label>
+          <label style="margin-top:.8rem;">场景记录器
+            <textarea id="satsSceneInput" placeholder="例如：他抱着我，手臂收紧，呼吸在耳边。"></textarea>
+          </label>
+          <button class="ghost" id="saveSatsSceneBtn" style="margin-top:.7rem;">保存为历史场景</button>
+          <label style="margin-top:.8rem;">补记日期（默认昨天）
+            <input id="satsRecordDate" type="date" />
+          </label>
+          <button class="primary" id="completeSatsBtn" style="margin-top:.8rem;">🌙 昨晚我做了 SATS</button>
+        </section>
+        <aside class="panel">
+          <h2>🔥 当前连续 SATS 天数：<span id="satsCurrent">0</span> 天</h2>
+          <div class="grid" style="grid-template-columns:repeat(2,minmax(0,1fr));">
+            <div class="panel"><div class="pill">累计</div><h2 id="satsTotal">0天</h2></div>
+            <div class="panel"><div class="pill">最高</div><h2 id="satsBest">0天</h2></div>
+          </div>
+          <div class="progress-days" id="satsCalendar"></div>
+          <div class="quote-top" id="satsReward">绿色圆点表示已完成。可补记任意日期，连续天数按实际完成日期计算。</div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="panel footer-tools">
+      <h2>数据备份</h2>
+      <p class="note">导出 JSON 可用于换手机或恢复备份。</p>
+      <div class="row" style="justify-content:center;">
+        <button class="primary" id="exportBtn">导出所有数据</button>
+        <button class="ghost" id="importBtn">导入数据</button>
+        <input class="hidden-file" id="importFile" type="file" accept="application/json" />
+      </div>
+    </section>
+  </main>
+
+  <div class="modal" id="rewardModal">
+    <div class="modal-card">
+      <div class="between">
+        <div><h2>奖励商店</h2><p class="note">自定义奖励与积分，兑换后会记录历史。</p></div>
+        <button class="icon-btn" id="closeRewardBtn">×</button>
+      </div>
+      <div class="form-grid">
+        <input id="rewardName" placeholder="例如：今晚吃顿好的" />
+        <input id="rewardCost" type="number" min="1" placeholder="积分，例如 30" />
+      </div>
+      <button class="primary" id="addRewardBtn" style="margin-top:.8rem;">添加奖励</button>
+      <div class="list" id="rewardList"></div>
+    </div>
+  </div>
+
+  <div class="modal" id="routineModal">
+    <div class="modal-card">
+      <div class="between">
+        <div><h2>编辑 / 替换 Routine</h2><p class="note">选择一个 Routine 固定到任务板顶部，也可以随时编辑步骤。</p></div>
+        <button class="icon-btn" id="closeRoutineBtn">×</button>
+      </div>
+      <div class="form-row">
+        <input id="routineName" placeholder="例如：晨间SC仪式" />
+        <button class="primary" id="addRoutineBtn">创建</button>
+      </div>
+      <div class="two-grid" style="grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);margin-top:.8rem;">
+        <section>
+          <h3>我的模板</h3>
+          <div class="list" id="routineList"></div>
+        </section>
+        <section>
+          <h3>步骤编辑</h3>
+          <div id="routineEditor" class="empty">先选择一个 Routine。</div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="logModal">
+    <div class="modal-card">
+      <div class="between">
+        <div>
+          <p class="pill">显化日记</p>
+          <h2 id="logModalDate">每日手记</h2>
+        </div>
+        <button class="icon-btn" id="closeLogModalBtn">×</button>
+      </div>
+      <label style="margin-top:.8rem;">显化状态
+        <select id="logModalStatus"></select>
+      </label>
+      <div class="rich-toolbar" aria-label="富文本工具栏">
+        <button type="button" data-rich-command="bold">B</button>
+        <button type="button" data-rich-command="italic">I</button>
+        <button type="button" data-rich-command="strikeThrough">S</button>
+        <button type="button" data-rich-command="insertUnorderedList">• 列表</button>
+        <button type="button" data-rich-command="insertOrderedList">1. 列表</button>
+      </div>
+      <div id="logRichEditor" class="rich-editor" contenteditable="true" aria-label="日记正文"></div>
+      <div class="row" style="margin-top:.8rem;">
+        <button class="primary" id="saveLogModalBtn">保存修改</button>
+        <button class="soft" id="pinLogModalBtn">置顶</button>
+        <button class="danger" id="deleteLogModalBtn">删除</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="diaryFieldModal">
+    <div class="modal-card diary-field-modal">
+      <div class="between">
+        <div>
+          <p class="pill" id="diaryFieldPill">月度回顾</p>
+          <h2 id="diaryFieldTitle">编辑</h2>
+        </div>
+        <button class="icon-btn" id="closeDiaryFieldModalBtn">×</button>
+      </div>
+      <label style="margin-top:.8rem;" id="diaryFieldInputWrap">本月主题
+        <input id="diaryFieldInput" maxlength="100" />
+      </label>
+      <label style="margin-top:.8rem; display:none;" id="diaryFieldTextareaWrap">本月安排
+        <textarea id="diaryFieldTextarea" maxlength="500" style="min-height:180px;"></textarea>
+      </label>
+      <div class="row" style="margin-top:.8rem;">
+        <button class="primary" id="saveDiaryFieldBtn">保存</button>
+        <button class="soft" id="cancelDiaryFieldBtn">取消</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <section class="auth-screen" id="authScreen">
+    <div class="auth-card">
+      <p class="pill">Cloud Account</p>
+      <h1 style="color:var(--text);">进入创造者空间</h1>
+      <p class="note">云端账号会同步任务、日志、SATS、Routine、奖励与所有记录。不同手机登录同一个账号，会看到同一套数据。</p>
+      <div class="form-row" style="grid-template-columns:1fr;margin-top:1rem;">
+        <label>账号
+          <input id="authUsername" autocomplete="username" placeholder="输入账号名" />
+        </label>
+        <label>密码
+          <input id="authPassword" type="password" autocomplete="current-password" placeholder="输入密码" />
+        </label>
+      </div>
+      <div class="auth-actions">
+        <button class="primary" id="loginBtn">登录</button>
+        <button class="soft" id="createAccountBtn">创建账号</button>
+      </div>
+      <p class="note" id="authNote" style="margin-top:.8rem;">如果创建后提示确认邮箱，请在 Supabase 的 Email 设置里关闭 Confirm email。</p>
+    </div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_CONFIG = {
+      url: "https://gafntksupqlvltbiboxa.supabase.co",
+      anonKey: "sb_publishable_wB8pBvRoLJBIcU-a50iFOA_zT6DK_10"
+    };
+    const CLOUD_TABLE = "manifestation_profiles";
+    const KEY = "creator_manifestation_v9";
+    const dateKey = (date = new Date()) => {
+      const d = new Date(date);
+      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+    };
+    const today = () => dateKey();
+    const offsetDate = (offset) => {
+      const d = new Date();
+      d.setDate(d.getDate() + offset);
+      return dateKey(d);
+    };
+    const uid = () => crypto.randomUUID ? crypto.randomUUID() : String(Date.now() + Math.random());
+    const $ = (s) => document.querySelector(s);
+    const $$ = (s) => Array.from(document.querySelectorAll(s));
+    const html = (v) => String(v ?? "").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
+    const clampText = (v, n) => String(v || "").trim().slice(0, n);
+
+    const defaults = {
+      theme: "garden",
+      points: 0,
+      lastDailyReset: today(),
+      sc: {
+        declaration: "我的身体是一座圣殿",
+        date: today(),
+        checks: [false, false, false]
+      },
+      tasks: [],
+      rewards: [],
+      rewardHistory: [],
+      manifests: [],
+      logs: [],
+      diaryThemes: {},
+      vision: "",
+      storyDraft: "",
+      stories: [],
+      affirmations: [
+        { id: uid(), text: "我值得被爱，无需证明。", tag: "SC" },
+        { id: uid(), text: "我的世界完全有利于我。", tag: "SC" },
+        { id: uid(), text: "我想要，我得到。", tag: "财富" }
+      ],
+      todayAffirmation: "我值得被爱，无需证明。",
+      routines: [],
+      activeRoutine: null,
+      releaseTargets: [],
+      sats: { scene: "", scenes: [], records: [], best: 0, badges: [] }
+    };
+
+    const suggestions = [
+      { text: "旧故事识别：遇到一个不喜欢的3D画面，只说“这是旧版本离场”。", points: 5 },
+      { text: "终点普通感：把一个愿望写成今天已经习惯的日常小事。", points: 6 },
+      { text: "五感锚定：用触觉、声音、气味各补一个已成场景细节。", points: 8 },
+      { text: "财富确认：看一眼账户或钱包，对自己说“资源一直在我这里流动”。", points: 5 },
+      { text: "SC照顾：做一件滋养身体的小事，水、拉伸、护肤任选。", points: 5 },
+      { text: "接收训练：今天接受一次夸奖、帮助或善意，不解释不推开。", points: 6 },
+      { text: "不追问练习：有一次想分析时，直接回到“我已经决定”。", points: 7 },
+      { text: "巴巴多斯证据：记录一条已经落地的小成功，不论大小。", points: 10 },
+      { text: "身份切换：点击一次身份按钮，并停留10秒感受新身份。", points: 4 },
+      { text: "爱的安全感：闭眼5秒，感受自己已经被稳定选择。", points: 5 },
+      { text: "释放一分钟：对一个紧绷感做三问句，直到它变轻一点。", points: 8 },
+      { text: "SATS准备：保存一个今晚可进入的睡前场景。", points: 6 },
+      { text: "现实坐标：写下今天世界如何站在你这边的一件小事。", points: 5 },
+      { text: "自我优先：拒绝或延后一个让你消耗的小要求。", points: 7 },
+      { text: "终点动作：做一个“已经拥有的人”今天会自然做的小动作。", points: 8 },
+      { text: "旧证据断供：今天少看一次让你掉回旧故事的信息源。", points: 6 },
+      { text: "感恩确认：写下一个已经拥有的东西，并承认它也是显化。", points: 4 },
+      { text: "镜前设定：对镜子说一句“我默认自己是谁”的新设定。", points: 5 }
+    ];
+    const scPractices = [
+      "我对自己说：“我值得被爱，无需证明。”",
+      "我做了一件滋养身体的小事（喝水/拉伸/护肤）。",
+      "我切断了一次旧故事注意力（视奸/分析/等待）。"
+    ];
+    const scSundayNotes = ["你的SC又稳固了一层。", "你正在越来越自然地站在自己这边。", "你的身体、注意力和爱都回到你这里。"];
+    const manifestStates = [
+      { key: "已拥有", color: "#B4CCD2" },
+      { key: "释放中", color: "#DFC7B4" },
+      { key: "稳定", color: "#A3B5A6" },
+      { key: "摇摆", color: "#C5B9C5" },
+      { key: "突破", color: "#F0DC84" },
+      { key: "被爱", color: "#D4B8B4" },
+      { key: "富足", color: "#DDB355" }
+    ];
+    const storyKits = {
+      sp: {
+        clues: ["sp", "他", "她", "爱", "抱", "亲", "复合", "结婚", "早餐", "想我", "消息", "电话", "约会"],
+        places: ["厨房的暖光里", "刚醒来的卧室里", "熟悉的餐桌边", "安静的车里", "傍晚回家的玄关"],
+        senses: ["我听见他很自然地叫我的名字", "他的手指轻轻碰到我的手背", "我闻到早餐和干净衣物混在一起的味道", "他的语气平稳又亲近", "床垫因为他靠近而轻轻下陷"],
+        emotions: ["我没有追问，也没有试探，只是很安稳地接收这份爱", "我心里很松，因为被爱已经不是需要证明的事", "这一切自然得像每天都会发生", "我只是站在被选择的位置上，平静又笃定"]
+      },
+      money: {
+        clues: ["钱", "财富", "到账", "余额", "收入", "订单", "客户", "付款", "存款", "自由", "银行卡"],
+        places: ["手机银行页面前", "阳光照进来的书桌边", "付款成功的提示音里", "安静整理账单的晚上", "收到新订单的那一刻"],
+        senses: ["屏幕上的数字清楚地亮着", "提示音短促地响了一声", "我的手指划过手机边缘", "杯子里的水还带着一点温度", "桌面很干净，账目也很清楚"],
+        emotions: ["我没有紧绷，因为钱对我来说正在稳定流动", "我只是确认：这已经是我的常态", "我做决定时很轻松，因为资源一直在我这里", "我感到宽裕、踏实，并且完全被支持"]
+      },
+      work: {
+        clues: ["工作", "事业", "职位", "offer", "办公室", "升职", "项目", "面试", "同事", "客户", "创作"],
+        places: ["我坐在那个熟悉的位置上", "会议室安静的灯光下", "电脑屏幕前", "新办公室的桌边", "项目顺利完成后的下午"],
+        senses: ["键盘声规律地响着", "笔尖在纸上划过", "同事的声音自然又尊重", "屏幕上的结果清楚地摆在那里", "空气里有咖啡和纸张的味道"],
+        emotions: ["我在这个位置上很自然，好像它一直属于我", "我不需要用力证明，能力已经被看见", "事情推进得很顺，我只是稳稳地接住结果", "我感到被认可，也感到自己完全胜任"]
+      },
+      health: {
+        clues: ["健康", "身体", "皮肤", "瘦", "漂亮", "美", "活力", "睡眠", "恢复", "轻盈", "镜子"],
+        places: ["早晨的镜子前", "洗漱台的柔光里", "散步回来的路上", "刚醒来的床边", "护肤后的安静夜里"],
+        senses: ["我感到呼吸很顺", "皮肤触感干净又柔软", "身体轻盈地站起来", "水流碰到手腕时很清凉", "镜子里的自己看起来明亮而稳定"],
+        emotions: ["我不再挑剔身体，而是感到它一直在支持我", "美丽对我来说正在变得自然", "我很安心，因为身体每天都在回应新的设定", "我看见自己时，心里是温柔和确认"]
+      },
+      self: {
+        clues: ["自己", "自我", "自信", "安全感", "放下", "稳定", "开心", "生活", "自由", "平静"],
+        places: ["安静的房间里", "窗边的椅子上", "散步经过的树影下", "整理完房间的晚上", "给自己倒水的那一刻"],
+        senses: ["我的肩膀慢慢松下来", "窗外的声音很远也很轻", "手心触到杯壁的温度", "呼吸落回身体里", "脚底稳稳踩在地面上"],
+        emotions: ["我终于不再把注意力交给旧故事", "我回到自己这里，感觉很完整", "我不需要任何人许可，我已经允许自己拥有", "我在自己的世界里安静地坐稳"]
+      }
+    };
+
+    let data = load();
+    let suggestionOffset = Math.floor(Math.random() * suggestions.length);
+    let selectedRoutineId = null;
+    let editingLogId = null;
+    let viewingLogId = null;
+    let viewingLogDate = "";
+    let diaryMonth = today().slice(0, 7);
+    let editingDiaryField = "";
+    let editingStoryId = null;
+    let logPage = 1;
+    let storyPage = 1;
+    let successPage = 1;
+    let releasePage = 1;
+    const LOG_PAGE_SIZE = 6;
+    const STORY_PAGE_SIZE = 5;
+    const SUCCESS_PAGE_SIZE = 6;
+    const RELEASE_PAGE_SIZE = 6;
+    const SAVE_DEBOUNCE_MS = 350;
+    const AUTO_PULL_MS = 15000;
+    const PREVIEW_MODE = new URLSearchParams(location.search).has("preview");
+    let supabaseClient = null;
+    let activeUserId = "";
+    let activeUsername = "";
+    let cloudTimer = 0;
+    let hydrating = false;
+    let cloudSaving = false;
+    let cloudDirty = false;
+    let cloudPulling = false;
+
+    function load() {
+      try {
+        const raw = localStorage.getItem(KEY);
+        return raw ? merge(defaults, JSON.parse(raw)) : clone(defaults);
+      } catch {
+        return clone(defaults);
+      }
+    }
+    function clone(value) {
+      return JSON.parse(JSON.stringify(value));
+    }
+    function merge(base, incoming) {
+      const out = clone(base);
+      Object.keys(incoming || {}).forEach(k => {
+        if (incoming[k] && typeof incoming[k] === "object" && !Array.isArray(incoming[k]) && out[k]) out[k] = { ...out[k], ...incoming[k] };
+        else out[k] = incoming[k];
+      });
+      return out;
+    }
+    function save() {
+      data.localUpdatedAt = Date.now();
+      localStorage.setItem(KEY, JSON.stringify(data));
+      cloudDirty = true;
+      queueCloudSave();
+    }
+    function timeLabel(value) {
+      if (!value) return "";
+      const d = new Date(value);
+      if (Number.isNaN(d.getTime())) return "";
+      return `${dateKey(d)} ${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
+    }
+    function cloudConfigured() {
+      return window.supabase && SUPABASE_CONFIG.url.startsWith("https://") && SUPABASE_CONFIG.anonKey.startsWith("sb_");
+    }
+    function cloud() {
+      if (!cloudConfigured()) return null;
+      if (!supabaseClient) supabaseClient = window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey);
+      return supabaseClient;
+    }
+    function cleanUsername(value) {
+      return String(value || "").trim().toLowerCase().replace(/[^a-z0-9_\u4e00-\u9fa5]/gi, "_").replace(/_+/g, "_").slice(0, 28);
+    }
+    function usernameEmail(username) {
+      return `${encodeURIComponent(username)}@creator.local`;
+    }
+    function usernameFromUser(user) {
+      return user?.user_metadata?.creator_username || decodeURIComponent((user?.email || "").split("@")[0]) || "creator";
+    }
+    function packCloudData() {
+      return { ...data, cloudUpdatedAt: Date.now() };
+    }
+    function applyCloudData(doc) {
+      hydrating = true;
+      data = merge(defaults, doc || {});
+      localStorage.setItem(KEY, JSON.stringify(data));
+      cloudDirty = false;
+      hydrating = false;
+    }
+    function setSyncStatus(text) {
+      const el = $("#syncStatus");
+      if (el) el.textContent = text;
+    }
+    function latestDataTimestamp(doc) {
+      let latest = Number(doc?.localUpdatedAt || doc?.cloudUpdatedAt || 0);
+      const visit = (value) => {
+        if (!value || typeof value !== "object") return;
+        Object.entries(value).forEach(([key, item]) => {
+          if (["at", "createdAt", "updatedAt", "completedAt", "capAt", "localUpdatedAt", "cloudUpdatedAt"].includes(key)) {
+            const n = typeof item === "number" ? item : Date.parse(item);
+            if (!Number.isNaN(n)) latest = Math.max(latest, n);
+          }
+          if (item && typeof item === "object") visit(item);
+        });
+      };
+      visit(doc);
+      return latest;
+    }
+    function queueCloudSave() {
+      if (hydrating || !activeUserId || !cloud()) return;
+      clearTimeout(cloudTimer);
+      setSyncStatus("待同步");
+      cloudTimer = setTimeout(saveCloudNow, SAVE_DEBOUNCE_MS);
+    }
+    async function saveCloudNow({ quiet = false } = {}) {
+      const client = cloud();
+      if (!client || !activeUserId) return;
+      if (cloudSaving) return;
+      clearTimeout(cloudTimer);
+      cloudSaving = true;
+      setSyncStatus("同步中");
+      const packed = packCloudData();
+      cloudDirty = false;
+      let error = null;
+      try {
+        const result = await client.from(CLOUD_TABLE).upsert({
+          user_id: activeUserId,
+          data: packed,
+          updated_at: new Date().toISOString()
+        }, { onConflict: "user_id" });
+        error = result.error;
+      } catch (err) {
+        error = err;
+      }
+      cloudSaving = false;
+      if (error) {
+        cloudDirty = true;
+        setSyncStatus("同步失败");
+        if (!quiet) toast("云端保存失败，请检查网络或数据库权限。");
+        return;
+      }
+      data.cloudUpdatedAt = packed.cloudUpdatedAt;
+      localStorage.setItem(KEY, JSON.stringify(data));
+      setSyncStatus(`已同步 ${new Date(packed.cloudUpdatedAt).toLocaleTimeString("zh-CN", { hour: "2-digit", minute: "2-digit" })}`);
+      if (cloudDirty) queueCloudSave();
+    }
+    async function loadCloudState({ quiet = false } = {}) {
+      const client = cloud();
+      if (!client || !activeUserId || cloudPulling) return "skipped";
+      cloudPulling = true;
+      if (!quiet) setSyncStatus("读取云端");
+      let row = null;
+      let error = null;
+      try {
+        const result = await client.from(CLOUD_TABLE).select("data,updated_at").eq("user_id", activeUserId).maybeSingle();
+        row = result.data;
+        error = result.error;
+      } catch (err) {
+        error = err;
+      }
+      cloudPulling = false;
+      if (error) {
+        setSyncStatus("读取失败");
+        if (!quiet) toast("云端读取失败，请检查 Supabase 表是否已创建。");
+        return "error";
+      }
+      if (row?.data) {
+        const localTime = latestDataTimestamp(data);
+        const remoteTime = Math.max(latestDataTimestamp(row.data), row.updated_at ? Date.parse(row.updated_at) : 0);
+        if (cloudDirty && localTime > remoteTime + 1200) {
+          await saveCloudNow({ quiet: true });
+          if (!quiet) toast("本机有较新的记录，已补同步到云端。");
+          return "pushed";
+        }
+        if (remoteTime > localTime + 1200) {
+          applyCloudData(row.data);
+          setSyncStatus(`已同步 ${new Date(remoteTime || Date.now()).toLocaleTimeString("zh-CN", { hour: "2-digit", minute: "2-digit" })}`);
+          return "pulled";
+        }
+        setSyncStatus(`已同步 ${new Date(remoteTime || Date.now()).toLocaleTimeString("zh-CN", { hour: "2-digit", minute: "2-digit" })}`);
+        return "noop";
+      } else {
+        await saveCloudNow();
+        return "pushed";
+      }
+    }
+    async function syncNow() {
+      if (!activeUserId) return toast("请先登录云端账号。");
+      const result = await loadCloudState();
+      if (cloudDirty) await saveCloudNow();
+      renderAll();
+      toast(result === "pulled" ? "已自动拉取云端最新数据。" : "同步完成。");
+    }
+    async function autoPullCloud() {
+      if (!activeUserId || document.hidden || cloudDirty || cloudSaving) return;
+      const result = await loadCloudState({ quiet: true });
+      if (result === "pulled") renderAll();
+    }
+    async function enterSession(session) {
+      activeUserId = session.user.id;
+      activeUsername = usernameFromUser(session.user);
+      $("#accountName").textContent = activeUsername;
+      document.body.classList.remove("auth-locked");
+      await loadCloudState();
+      renderAll();
+    }
+    async function createCloudAccount() {
+      const client = cloud();
+      if (!client) return toast("Supabase配置还没有生效。");
+      const username = cleanUsername($("#authUsername").value);
+      const password = $("#authPassword").value;
+      if (username.length < 2) return toast("账号至少2个字符。");
+      if (password.length < 4) return toast("密码至少4个字符。");
+      const { data: auth, error } = await client.auth.signUp({
+        email: usernameEmail(username),
+        password,
+        options: { data: { creator_username: username } }
+      });
+      if (error) return toast(error.message || "创建失败。");
+      if (!auth.session) return toast("账号已创建。请关闭邮箱确认后再登录。");
+      data = clone(defaults);
+      localStorage.setItem(KEY, JSON.stringify(data));
+      await enterSession(auth.session);
+      await saveCloudNow();
+      toast("云端账号已创建。");
+    }
+    async function loginCloudAccount() {
+      const client = cloud();
+      if (!client) return toast("Supabase配置还没有生效。");
+      const username = cleanUsername($("#authUsername").value);
+      const password = $("#authPassword").value;
+      const { data: auth, error } = await client.auth.signInWithPassword({ email: usernameEmail(username), password });
+      if (error) return toast(error.message || "登录失败。");
+      await enterSession(auth.session);
+      toast("欢迎回来。");
+    }
+    async function logoutCloudAccount() {
+      const client = cloud();
+      if (cloudDirty) await saveCloudNow({ quiet: true });
+      if (client) await client.auth.signOut();
+      activeUserId = "";
+      activeUsername = "";
+      document.body.classList.add("auth-locked");
+      $("#accountName").textContent = "未登录";
+      setSyncStatus("未同步");
+      $("#authPassword").value = "";
+      $("#authUsername").focus();
+      toast("已退出。");
+    }
+    function toast(msg) {
+      $("#toast").textContent = msg;
+      $("#toast").classList.add("show");
+      clearTimeout(toast.t);
+      toast.t = setTimeout(() => $("#toast").classList.remove("show"), 1800);
+    }
+    function sameDate(a, b) { return a === b; }
+    function resetDailyIfNeeded() {
+      const d = today();
+      if (!sameDate(data.lastDailyReset, d)) {
+        data.tasks.forEach(t => { t.completed = false; t.completedAt = null; });
+        data.sc.date = d;
+        data.sc.checks = [false, false, false];
+        if (data.activeRoutine) data.activeRoutine = { ...data.activeRoutine, date: d, checks: [] };
+        data.lastDailyReset = d;
+        save();
+      }
+    }
+    function normalizeData() {
+      if (!["garden", "coast", "nebula", "alchemy"].includes(data.theme)) {
+        data.theme = data.theme === "rose" || data.theme === "pinkblue" ? "garden" : data.theme === "green" || data.theme === "wabi" ? "garden" : data.theme === "pop" ? "coast" : "garden";
+      }
+      data.tasks = (data.tasks || []).map(t => ({
+        id: t.id || uid(),
+        text: clampText(t.text || "", 100),
+        completed: Boolean(t.completed),
+        completedAt: t.completedAt || null,
+        points: Math.max(0, Number(t.points ?? 5) || 0),
+        createdAt: t.createdAt || Date.now()
+      })).filter(t => t.text);
+      data.manifests = (data.manifests || []).map(m => ({
+        id: m.id || uid(),
+        title: clampText(m.title || m.text || "成功事件", 40),
+        description: clampText(m.description || "", 500),
+        date: m.date || dateKey(m.at || m.createdAt || Date.now()),
+        points: Math.max(0, Number(m.points ?? 0) || 0),
+        createdAt: m.createdAt || m.at || Date.now()
+      }));
+      data.logs = (data.logs || []).map(l => ({
+        id: l.id || uid(),
+        date: l.date || dateKey(l.at || l.createdAt || Date.now()),
+        text: String(l.text || ""),
+        html: l.html || "",
+        status: l.status || "稳定",
+        at: l.at || l.createdAt || Date.now(),
+        updatedAt: l.updatedAt || null,
+        pinned: Boolean(l.pinned)
+      })).filter(l => l.text || l.html);
+      data.logs = Object.values(data.logs.reduce((map, log) => {
+        const prev = map[log.date];
+        if (!prev || (log.updatedAt || log.at || 0) > (prev.updatedAt || prev.at || 0)) map[log.date] = log;
+        return map;
+      }, {}));
+      data.diaryThemes = data.diaryThemes || {};
+      data.stories = (data.stories || []).map(s => ({
+        id: s.id || uid(),
+        vision: clampText(s.vision || "", 200),
+        story: clampText(s.story || "", 1200),
+        at: s.at || s.createdAt || Date.now(),
+        updatedAt: s.updatedAt || null
+      })).filter(s => s.vision && s.story);
+      data.sats = { ...defaults.sats, ...(data.sats || {}) };
+      data.sats.scenes = Array.isArray(data.sats.scenes) ? data.sats.scenes : [];
+      if (data.sats.scene && !data.sats.scenes.some(s => s.text === data.sats.scene)) {
+        data.sats.scenes.unshift({ id: uid(), text: data.sats.scene, createdAt: Date.now() });
+      }
+      data.sats.records = (data.sats.records || []).map(r => ({
+        id: r.id || uid(),
+        date: r.date || dateKey(r.at || Date.now()),
+        scene: r.scene || data.sats.scene || "",
+        at: r.at || Date.now()
+      }));
+    }
+    function applyTheme() {
+      if (!["garden", "coast", "nebula", "alchemy"].includes(data.theme)) data.theme = "garden";
+      document.body.dataset.theme = data.theme;
+      localStorage.setItem("creator_theme", data.theme);
+      const themeLabels = { garden: "水晶卧室", coast: "草本茶室", alchemy: "物件实验室", nebula: "星穹" };
+      $$(".theme-option").forEach(btn => {
+        const label = btn.querySelector("span:last-child");
+        if (label && themeLabels[btn.dataset.theme]) label.textContent = themeLabels[btn.dataset.theme];
+      });
+    }
+    function showPage(id) {
+      $$(".tab").forEach(t => t.classList.toggle("active", t.dataset.page === id));
+      $$(".page").forEach(p => p.classList.toggle("active", p.id === id));
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+    function renderAll() {
+      normalizeData();
+      resetDailyIfNeeded();
+      applyTheme();
+      renderHome();
+      renderSc();
+      renderTasks();
+      renderRewards();
+      renderBarbados();
+      renderLogs();
+      renderEnd();
+      renderRoutines();
+      renderActiveRoutine();
+      renderRelease();
+      renderSats();
+    }
+
+    function renderHome() {
+      $("#homePoints").textContent = `积分 ${data.points}`;
+      $("#taskPoints").textContent = `积分 ${data.points}`;
+      $("#taskToday").textContent = `今日任务 ${data.tasks.filter(t => t.completed).length}`;
+      $("#todayAffirmation").textContent = `今日肯定：${data.todayAffirmation || "我值得被爱，无需证明。"}`;
+      $("#satsStreak").textContent = `SATS 连续 ${satsStreak()} 天`;
+    }
+    function renderSc() {
+      $("#scDeclaration").textContent = data.sc.declaration || "我的身体是一座圣殿";
+      $("#scPracticeList").innerHTML = scPractices.map((text, i) => `
+        <label class="item check-row">
+          <input class="check" type="checkbox" data-sc="${i}" ${data.sc.checks[i] ? "checked" : ""}>
+          <span>${html(text)}</span>
+          <span></span>
+        </label>
+      `).join("");
+      const isSunday = new Date().getDay() === 0;
+      $("#weeklyScNote").style.display = isSunday ? "block" : "none";
+      if (isSunday) $("#weeklyScNote").textContent = scSundayNotes[new Date().getDate() % scSundayNotes.length];
+    }
+    function editSc() {
+      const next = prompt("编辑SC核心宣言：", data.sc.declaration);
+      if (next === null) return;
+      data.sc.declaration = clampText(next, 80) || "我的身体是一座圣殿";
+      save(); renderSc(); toast("SC宣言已保存。");
+    }
+
+    function sortedTasks() {
+      return [...data.tasks].sort((a,b) => {
+        if (a.completed && b.completed) return (b.completedAt || 0) - (a.completedAt || 0);
+        if (a.completed !== b.completed) return a.completed ? 1 : -1;
+        return (a.createdAt || 0) - (b.createdAt || 0);
+      });
+    }
+    function renderTasks() {
+      resetDailyIfNeeded();
+      const tasks = sortedTasks();
+      $("#taskList").innerHTML = tasks.length ? tasks.map(t => `
+        <article class="item check-row">
+          <input class="check" type="checkbox" data-task="${t.id}" ${t.completed ? "checked" : ""}>
+          <div>
+            <div class="${t.completed ? "done" : ""}"><b>${html(t.text)}</b></div>
+            <div class="meta"><span>${t.completed ? "今日已完成" : "长期有效"}</span></div>
+          </div>
+          <div class="mini-actions">
+            <button class="score-chip" data-edit-task-points="${t.id}" title="点击修改积分">${t.points || 5}</button>
+            <button class="icon-btn" data-delete-task="${t.id}">×</button>
+          </div>
+        </article>
+      `).join("") : `<div class="empty">还没有任务。添加一个长期有效任务，明天会自动清空勾选状态。</div>`;
+      const pool = [...suggestions, ...suggestions];
+      $("#taskSuggestions").innerHTML = pool.slice(suggestionOffset, suggestionOffset + 6).map(s => `
+        <article class="item between suggestion-card">
+          <div><b>${html(s.text)}</b></div>
+          <button class="ghost" data-add-suggestion="${html(s.text)}" data-suggestion-points="${s.points}">加入</button>
+        </article>
+      `).join("");
+      renderHome();
+    }
+    function addTask(text, points = 5) {
+      const clean = clampText(text, 100);
+      if (!clean) return;
+      data.tasks.push({ id: uid(), text: clean, completed: false, completedAt: null, points: Math.max(0, Number(points) || 0), createdAt: Date.now() });
+      save(); renderTasks(); toast("任务已添加。");
+    }
+    function editTaskPoints(id) {
+      const task = data.tasks.find(t => t.id === id);
+      if (!task) return;
+      const next = prompt("设置这个任务完成后获得的积分：", String(task.points ?? 5));
+      if (next === null) return;
+      const oldPoints = Math.max(0, Number(task.points ?? 5) || 0);
+      const newPoints = Math.max(0, Number(next) || 0);
+      task.points = newPoints;
+      if (task.completed) data.points = Math.max(0, data.points - oldPoints + newPoints);
+      save(); renderTasks(); toast("任务积分已更新。");
+    }
+    function toggleTask(id, checked) {
+      const t = data.tasks.find(x => x.id === id);
+      if (!t) return;
+      t.completed = checked;
+      t.completedAt = checked ? Date.now() : null;
+      data.points = Math.max(0, data.points + (checked ? (t.points || 5) : -(t.points || 5)));
+      save(); renderTasks(); toast(checked ? `+${t.points || 5} 积分` : "已撤销完成。");
+    }
+
+    function renderRewards() {
+      $("#rewardList").innerHTML = data.rewards.length ? data.rewards.map(r => `
+        <article class="item between">
+          <div><b>${html(r.name)}</b><div class="meta"><span>${r.cost}积分</span></div></div>
+          <div class="mini-actions">
+            <button class="primary" data-redeem="${r.id}">兑换</button>
+            <button class="icon-btn" data-delete-reward="${r.id}">×</button>
+          </div>
+        </article>
+      `).join("") : `<div class="empty">还没有奖励。添加一个“今晚吃顿好的”也很合理。</div>`;
+    }
+    function redeem(id) {
+      const r = data.rewards.find(x => x.id === id);
+      if (!r) return;
+      if (data.points < r.cost) return toast("积分还不够。");
+      data.points -= r.cost;
+      data.rewardHistory.unshift({ id: uid(), rewardId: id, name: r.name, cost: r.cost, at: Date.now() });
+      save(); renderAll(); toast(`已兑换：${r.name}`);
+    }
+
+    function sortedSuccessEvents() {
+      return [...data.manifests].sort((a,b) => (b.date || "").localeCompare(a.date || "") || (b.createdAt || 0) - (a.createdAt || 0));
+    }
+    function renderBarbados() {
+      const events = sortedSuccessEvents();
+      if (!$("#successDate").value) $("#successDate").value = today();
+      if (!$("#successPoints").value) $("#successPoints").value = 10;
+      $("#barbadosTotal").textContent = `已登岛 ${events.length} 次`;
+      $("#barbadosStats").textContent = `已登岛 ${events.length} 次`;
+      $("#barbadosPreview").innerHTML = events.slice(0, 3).map(e => `
+        <article class="item between"><div><b>${html(e.title)}</b><div class="meta"><span>${html(e.date)}</span>${e.points ? `<span>+${e.points}分</span>` : ""}</div></div></article>
+      `).join("") || `<div class="empty">还没有成功记录。第一条巴巴多斯很快出现。</div>`;
+      const totalPages = Math.max(1, Math.ceil(events.length / SUCCESS_PAGE_SIZE));
+      successPage = Math.min(Math.max(1, successPage), totalPages);
+      const pageEvents = events.slice((successPage - 1) * SUCCESS_PAGE_SIZE, successPage * SUCCESS_PAGE_SIZE);
+      $("#successList").innerHTML = pageEvents.map(e => `
+        <article class="item check-row">
+          <span class="pill">已落地</span>
+          <div>
+            <b>${html(e.title)}</b>
+            <div class="meta"><span>${html(e.date)}</span>${e.points ? `<span>+${e.points}分</span>` : ""}</div>
+            ${e.description ? `<p class="note">${html(e.description).slice(0, 54)}${e.description.length > 54 ? "…" : ""}</p>` : ""}
+          </div>
+          <div class="mini-actions">
+            <button class="ghost" data-edit-success="${e.id}">编辑</button>
+            <button class="icon-btn" data-delete-success="${e.id}">×</button>
+          </div>
+        </article>
+      `).join("") || `<div class="empty">还没有成功事件。标题必填，日期默认今天。</div>`;
+      if (events.length > SUCCESS_PAGE_SIZE) {
+        $("#successList").innerHTML += `
+          <div class="item between">
+            <button class="ghost" data-success-page="${successPage - 1}" ${successPage <= 1 ? "disabled" : ""}>上一页</button>
+            <span class="meta">第 ${successPage} / ${totalPages} 页 · 共 ${events.length} 条</span>
+            <button class="ghost" data-success-page="${successPage + 1}" ${successPage >= totalPages ? "disabled" : ""}>下一页</button>
+          </div>
+        `;
+      }
+    }
+    function editSuccessEvent(id) {
+      const item = data.manifests.find(m => m.id === id);
+      if (!item) return;
+      const title = prompt("编辑事件标题：", item.title);
+      if (title === null) return;
+      const date = prompt("编辑落地日期（YYYY-MM-DD）：", item.date || today());
+      if (date === null) return;
+      const description = prompt("编辑详细描述（可留空）：", item.description || "");
+      if (description === null) return;
+      const points = prompt("编辑落地积分：", String(item.points || 0));
+      if (points === null) return;
+      const oldPoints = Math.max(0, Number(item.points || 0) || 0);
+      const newPoints = Math.max(0, Number(points) || 0);
+      item.title = clampText(title, 40) || item.title;
+      item.date = date || item.date || today();
+      item.description = clampText(description, 500);
+      item.points = newPoints;
+      data.points = Math.max(0, data.points - oldPoints + newPoints);
+      save(); renderAll(); toast("成功事件已更新。");
+    }
+    function sortedLogs() {
+      return [...data.logs].sort((a,b) => Number(b.pinned) - Number(a.pinned) || (b.at || 0) - (a.at || 0));
+    }
+    function stateFor(key) {
+      return manifestStates.find(s => s.key === key) || manifestStates[2];
+    }
+    function monthName(monthKey) {
+      const d = new Date(`${monthKey}-01T00:00:00`);
+      return d.toLocaleString("en-US", { month: "long" });
+    }
+    function defaultDiaryTheme(monthKey) {
+      return `${monthName(monthKey)}：I am the woman who has it all.`;
+    }
+    function diaryMonthConfig(monthKey = diaryMonth) {
+      const raw = data.diaryThemes?.[monthKey];
+      if (typeof raw === "string") return { theme: raw || defaultDiaryTheme(monthKey), plan: "这个月，我温柔地住进新身份里。" };
+      return {
+        theme: raw?.theme || defaultDiaryTheme(monthKey),
+        plan: raw?.plan || "这个月，我温柔地住进新身份里。"
+      };
+    }
+    function setDiaryMonthConfig(monthKey, patch) {
+      const current = diaryMonthConfig(monthKey);
+      data.diaryThemes[monthKey] = { ...current, ...patch };
+    }
+    function shiftDiaryMonth(delta) {
+      const d = new Date(`${diaryMonth}-01T00:00:00`);
+      d.setMonth(d.getMonth() + delta);
+      diaryMonth = dateKey(d).slice(0, 7);
+      renderLogs();
+    }
+    function logForDate(date) {
+      return [...data.logs]
+        .filter(l => l.date === date)
+        .sort((a,b) => (b.updatedAt || b.at || 0) - (a.updatedAt || a.at || 0))[0] || null;
+    }
+    function plainToRich(text) {
+      return html(text || "").replace(/\n/g, "<br>");
+    }
+    function richToPlain(value) {
+      const box = document.createElement("div");
+      box.innerHTML = value || "";
+      return box.innerText.trim();
+    }
+    function cleanRichHtml(raw) {
+      const box = document.createElement("div");
+      box.innerHTML = raw || "";
+      box.querySelectorAll("script, style, iframe, object, embed").forEach(n => n.remove());
+      const allowed = new Set(["B", "STRONG", "I", "EM", "S", "STRIKE", "UL", "OL", "LI", "P", "DIV", "BR"]);
+      const cleanNode = (node) => {
+        [...node.children].forEach(child => {
+          cleanNode(child);
+          if (!allowed.has(child.tagName)) child.replaceWith(...child.childNodes);
+          else [...child.attributes].forEach(attr => child.removeAttribute(attr.name));
+        });
+      };
+      cleanNode(box);
+      return box.innerHTML.trim();
+    }
+    function renderStatusOptions(selected = "稳定") {
+      const select = $("#logModalStatus");
+      if (!select) return;
+      select.innerHTML = manifestStates.map(s => `<option value="${html(s.key)}" ${s.key === selected ? "selected" : ""}>${html(s.key)}</option>`).join("");
+    }
+    function renderLogs() {
+      $("#saveDailyLogBtn").textContent = editingLogId ? "更新手记" : "保存手记";
+      const logs = sortedLogs();
+      const [year, month] = diaryMonth.split("-").map(Number);
+      const firstDay = new Date(year, month - 1, 1);
+      const days = new Date(year, month, 0).getDate();
+      const offset = firstDay.getDay();
+      const monthLogs = logs.filter(l => (l.date || "").startsWith(diaryMonth));
+      const monthConfig = diaryMonthConfig();
+      $("#diaryMonthLabel").textContent = `${monthName(diaryMonth)} ${year}`;
+      $("#diaryMonthThemeDisplay").textContent = monthConfig.theme;
+      $("#diaryMonthPlanDisplay").textContent = monthConfig.plan;
+      $("#statusLegend").innerHTML = manifestStates.map(s => `
+        <span class="status-pill"><span class="status-dot" style="--orb:${s.color};"></span>${html(s.key)}</span>
+      `).join("");
+      const cells = [];
+      for (let i = 0; i < offset; i++) cells.push(`<div class="diary-day ghost-day"></div>`);
+      for (let day = 1; day <= days; day++) {
+        const date = `${diaryMonth}-${String(day).padStart(2, "0")}`;
+        const log = logForDate(date);
+        const state = log ? stateFor(log.status) : { color: "rgba(255,255,255,.42)", key: "未记录" };
+        cells.push(`
+          <button class="diary-day ${log ? "has-log" : ""} ${date === today() ? "today" : ""}" type="button" data-diary-date="${date}" data-open-log="${log?.id || ""}" title="${html(date)} · ${html(state.key)}">
+            <span class="state-orb ${log ? "" : "empty-orb"}" style="--orb:${state.color};">${day}</span>
+          </button>
+        `);
+      }
+      $("#dailyLogList").innerHTML = cells.join("");
+      $("#diaryPreview").innerHTML = logs.slice(0, 2).map(l => `
+        <article class="item"><b>${html(l.date)}${l.pinned ? " · 置顶" : ""}</b><p class="note">${html(l.status || "稳定")}</p></article>
+      `).join("") || `<div class="empty">还没有手记。</div>`;
+    }
+
+    function editDailyLog(id) {
+      const log = data.logs.find(l => l.id === id);
+      if (!log) return;
+      editingLogId = id;
+      $("#dailyLogInput").value = log.text || "";
+      $("#dailyLogInput").focus();
+      renderLogs();
+      toast("已载入历史手记，可以编辑后更新。");
+    }
+    function openDailyLog(id, date = "") {
+      const log = id ? data.logs.find(l => l.id === id) : logForDate(date);
+      viewingLogId = log?.id || null;
+      viewingLogDate = log?.date || date || today();
+      $("#logModalDate").textContent = viewingLogDate;
+      $("#logRichEditor").innerHTML = log?.html || plainToRich(log?.text || "");
+      renderStatusOptions(log?.status || "稳定");
+      $("#pinLogModalBtn").textContent = log?.pinned ? "取消置顶" : "置顶";
+      $("#pinLogModalBtn").style.display = log ? "" : "none";
+      $("#deleteLogModalBtn").style.display = log ? "" : "none";
+      $("#logModal").classList.add("open");
+      setTimeout(() => $("#logRichEditor")?.focus(), 30);
+    }
+    function closeDailyLogModal() {
+      viewingLogId = null;
+      viewingLogDate = "";
+      $("#logModal").classList.remove("open");
+    }
+    function saveDailyLogModal() {
+      const editor = $("#logRichEditor");
+      const rich = cleanRichHtml(editor.innerHTML);
+      const text = richToPlain(rich);
+      if (!text) return toast("先写一点内容，再保存。");
+      let log = viewingLogId ? data.logs.find(l => l.id === viewingLogId) : logForDate(viewingLogDate);
+      if (!log) {
+        log = { id: uid(), date: viewingLogDate || today(), text: "", html: "", status: "稳定", at: Date.now(), updatedAt: null, pinned: false };
+        data.logs.unshift(log);
+      }
+      log.date = log.date || viewingLogDate || today();
+      log.text = text;
+      log.html = rich;
+      log.status = $("#logModalStatus").value || "稳定";
+      log.updatedAt = Date.now();
+      save(); renderLogs(); closeDailyLogModal(); toast("手记已保存。");
+    }
+    function openDiaryFieldModal(field) {
+      editingDiaryField = field;
+      const config = diaryMonthConfig();
+      const isPlan = field === "plan";
+      $("#diaryFieldPill").textContent = isPlan ? "本月安排" : "本月主题";
+      $("#diaryFieldTitle").textContent = isPlan ? "编辑本月安排" : "编辑本月主题";
+      $("#diaryFieldInputWrap").style.display = isPlan ? "none" : "grid";
+      $("#diaryFieldTextareaWrap").style.display = isPlan ? "grid" : "none";
+      $("#diaryFieldInput").value = config.theme;
+      $("#diaryFieldTextarea").value = config.plan;
+      $("#diaryFieldModal").classList.add("open");
+      setTimeout(() => (isPlan ? $("#diaryFieldTextarea") : $("#diaryFieldInput"))?.focus(), 30);
+    }
+    function closeDiaryFieldModal() {
+      editingDiaryField = "";
+      $("#diaryFieldModal").classList.remove("open");
+    }
+    function saveDiaryFieldModal() {
+      if (editingDiaryField === "theme") {
+        setDiaryMonthConfig(diaryMonth, { theme: clampText($("#diaryFieldInput").value, 100) || defaultDiaryTheme(diaryMonth) });
+      }
+      if (editingDiaryField === "plan") {
+        setDiaryMonthConfig(diaryMonth, { plan: clampText($("#diaryFieldTextarea").value, 500) || "这个月，我温柔地住进新身份里。" });
+      }
+      save();
+      renderLogs();
+      closeDiaryFieldModal();
+      toast("月度内容已保存。");
+    }
+
+    function renderEnd() {
+      $("#saveStoryBtn").textContent = editingStoryId ? "更新故事" : "保存故事";
+      $("#visionInput").value = data.vision || "";
+      $("#storyOutput").value = data.storyDraft || "";
+      const stories = [...data.stories].sort((a,b) => (b.updatedAt || b.at || 0) - (a.updatedAt || a.at || 0));
+      const totalPages = Math.max(1, Math.ceil(stories.length / STORY_PAGE_SIZE));
+      storyPage = Math.min(Math.max(1, storyPage), totalPages);
+      const pageStories = stories.slice((storyPage - 1) * STORY_PAGE_SIZE, storyPage * STORY_PAGE_SIZE);
+      $("#savedStories").innerHTML = pageStories.length ? pageStories.map(s => `
+        <article class="item">
+          <b>${html(s.vision).slice(0, 34)}${s.vision.length > 34 ? "…" : ""}</b>
+          <div class="meta"><span>${html(timeLabel(s.updatedAt || s.at) || "历史记录")}</span></div>
+          <details style="margin-top:.45rem;">
+            <summary style="cursor:pointer; color:var(--muted); font-weight:900;">${html(s.story).slice(0, 42)}${s.story.length > 42 ? "…" : ""}</summary>
+            <p class="note" style="white-space:pre-wrap; margin-top:.45rem;">${html(s.story)}</p>
+          </details>
+          <div class="mini-actions" style="margin-top:.65rem;">
+            <button class="ghost" data-edit-story="${s.id}">编辑</button>
+            <button class="ghost" data-load-story="${s.id}">载入</button>
+            <button class="icon-btn" data-delete-story="${s.id}">×</button>
+          </div>
+        </article>
+      `).join("") : `<div class="empty">保存后的新故事会在这里。</div>`;
+      if (stories.length > STORY_PAGE_SIZE) {
+        $("#savedStories").innerHTML += `
+          <div class="item between">
+            <button class="ghost" data-story-page="${storyPage - 1}" ${storyPage <= 1 ? "disabled" : ""}>上一页</button>
+            <span class="meta">第 ${storyPage} / ${totalPages} 页 · 共 ${stories.length} 条</span>
+            <button class="ghost" data-story-page="${storyPage + 1}" ${storyPage >= totalPages ? "disabled" : ""}>下一页</button>
+          </div>
+        `;
+      }
+    }
+    function editStory(id) {
+      const story = data.stories.find(s => s.id === id);
+      if (!story) return;
+      editingStoryId = id;
+      data.vision = story.vision;
+      data.storyDraft = story.story;
+      $("#visionInput").value = story.vision;
+      $("#storyOutput").value = story.story;
+      $("#visionInput").focus();
+      renderEnd();
+      toast("已载入历史故事，可以编辑后更新。");
+    }
+    function generateStory() {
+      const vision = clampText($("#visionInput").value, 200);
+      if (!vision) return toast("先写一个终点愿景。");
+      const type = detectStoryType(vision);
+      const scene = buildSceneFromVision(vision, type);
+      const core = polishVision(vision);
+      const openings = [
+        `这不是我在等待的未来，而是我现在正在过的生活。${scene.time}，${scene.place}，${core}。`,
+        `我已经住进这个画面里了。${scene.time}，${scene.place}，${core}，自然得像已经重复过很多次。`,
+        `这一幕已经成为我的日常。${scene.place}里很安静，${core}，我没有追问它什么时候发生，因为我就在这里。`
+      ];
+      const bodyA = [
+        `${scene.touch}。${scene.sound}。我注意到最具体的细节：${scene.object}，还有那个让我确认“这就是现实”的小动作。`,
+        `${scene.sound}，${scene.touch}。画面没有用力表演，它只是稳定地发生着。${scene.object}就在眼前，我的身体先于头脑接受了它。`,
+        `我没有把注意力拉回旧故事，只是继续留在这个场景里。${scene.touch}，${scene.sound}，每一个细节都在告诉我：这已经完成。`
+      ];
+      const bodyB = [
+        `${scene.emotion}。我不是在兴奋地证明什么，而是在平静地承认：这就是我的版本，这就是我选择的剧本。`,
+        `那种感觉很稳，不是短暂的幻想，而是“本来就该这样”的熟悉。${scene.emotion}，我的反应也越来越自然。`,
+        `我允许这一切普通、真实、持续。${scene.emotion}，我在终点里行动，也在终点里休息。`
+      ];
+      const endings = [
+        `我把这个画面收进身体里，不再向3D索要证据。真正的证据，是我此刻默认自己已经拥有。`,
+        `旧故事可以有声音，但它已经不是我的决定。我选择的就是这个画面，而这个画面已经在我的世界里生根。`,
+        `我合上这一天时，只留下这个事实：我已经在这里了。它不需要变得更神奇，它只需要继续成为我的日常。`
+      ];
+      const story = `${pick(openings)}\n\n${pick(bodyA)}\n\n${pick(bodyB)}\n\n${pick(endings)}`;
+      data.vision = vision;
+      data.storyDraft = story;
+      save(); renderEnd();
+    }
+    function pick(list) {
+      return list[Math.floor(Math.random() * list.length)];
+    }
+    function detectStoryType(text) {
+      const lower = text.toLowerCase();
+      let best = "self";
+      let score = 0;
+      Object.entries(storyKits).forEach(([type, kit]) => {
+        const hits = kit.clues.filter(c => lower.includes(c.toLowerCase())).length;
+        if (hits > score) { score = hits; best = type; }
+      });
+      return best;
+    }
+    function extractSubject(text, type) {
+      if (type === "sp") {
+        if (text.includes("她")) return "她";
+        if (text.toLowerCase().includes("sp")) return "我的SP";
+        return "他";
+      }
+      if (type === "money") return "财富";
+      if (type === "work") return "这个位置";
+      if (type === "health") return "我的身体";
+      return "我";
+    }
+    function polishVision(text) {
+      const clean = text.replace(/[。！？!?]+$/g, "").trim();
+      return clean
+        .replace(/^我想要/, "我已经拥有")
+        .replace(/^希望/, "现在")
+        .replace(/^我会/, "我正在")
+        .replace(/想要/g, "拥有")
+        .replace(/希望/g, "确认")
+        .replace(/将会/g, "正在")
+        || "我已经拥有想要的生活";
+    }
+    function hasAny(text, words) {
+      const lower = text.toLowerCase();
+      return words.some(w => lower.includes(w.toLowerCase()));
+    }
+    function buildSceneFromVision(vision, type) {
+      const kit = storyKits[type];
+      const base = {
+        time: hasAny(vision, ["早上", "早餐", "醒", "起床", "晨"]) ? "早晨刚醒来时" :
+          hasAny(vision, ["晚上", "睡前", "夜", "回家"]) ? "夜晚安静下来时" :
+          hasAny(vision, ["下午", "午后", "咖啡"]) ? "午后光线柔和的时候" : "此刻",
+        place: pick(kit.places),
+        touch: pick(kit.senses),
+        sound: pick(kit.senses),
+        object: extractObjectCue(vision, type),
+        emotion: pick(kit.emotions)
+      };
+      if (hasAny(vision, ["早餐", "厨房", "做饭", "煎蛋", "咖啡"])) {
+        return { ...base, place: "厨房的暖光里", touch: "杯壁和餐盘边缘都带着一点温度", sound: "锅里有轻轻的声响，餐具碰到桌面时很清脆", object: "早餐的香气、桌上的盘子、对方靠近时自然的动作" };
+      }
+      if (hasAny(vision, ["亲", "吻", "抱", "牵手", "身边", "床"])) {
+        return { ...base, place: "熟悉又安全的房间里", touch: "我能感觉到对方靠近时带来的温度", sound: "呼吸声很近，语气也很轻", object: "那个拥抱、额头上的亲吻、被坚定选择的位置" };
+      }
+      if (hasAny(vision, ["到账", "余额", "银行", "存款", "付款", "钱", "收入", "财富"])) {
+        return { ...base, place: "手机银行页面前", touch: "手机边缘贴着手心，屏幕微微发亮", sound: "到账提示音短促地响了一声", object: "清楚的数字、付款成功的页面、我从容安排生活的余地" };
+      }
+      if (hasAny(vision, ["工作", "办公室", "offer", "职位", "项目", "客户", "面试", "升职"])) {
+        return { ...base, place: "我已经坐稳的那个位置上", touch: "指尖碰到键盘和纸张时很踏实", sound: "键盘声、同事的回应声和空间里的低低人声都很真实", object: "桌面、电脑屏幕、被确认的结果和自然递来的机会" };
+      }
+      if (hasAny(vision, ["身体", "健康", "皮肤", "漂亮", "瘦", "镜子", "睡眠", "活力"])) {
+        return { ...base, place: "早晨的镜子前", touch: "身体轻盈地站着，呼吸顺畅落回胸口", sound: "水流声很轻，房间也很安静", object: "镜子里的状态、清透的皮肤、身体自然给出的回应" };
+      }
+      if (hasAny(vision, ["旅行", "海", "酒店", "机场", "巴巴多斯", "城市", "家"])) {
+        return { ...base, place: "那个我已经抵达的地方", touch: "空气贴着皮肤，脚下的地面很真实", sound: "远处有人声和环境声慢慢铺开", object: "眼前的风景、手里的行李或钥匙、我已经抵达的确认感" };
+      }
+      return base;
+    }
+    function extractObjectCue(text, type) {
+      const cues = [
+        ["早餐", "桌上的早餐和对方自然照顾我的动作"],
+        ["煎蛋", "盘子里的煎蛋和那种已经拥有的确认感"],
+        ["亲吻", "额头上的亲吻和身体里安定下来的感觉"],
+        ["消息", "屏幕上清楚出现的消息"],
+        ["电话", "电话那头熟悉的声音"],
+        ["到账", "入账数字和付款提示"],
+        ["余额", "余额页面上清楚稳定的数字"],
+        ["offer", "那封已经确认的offer"],
+        ["办公室", "办公桌、屏幕和属于我的位置"],
+        ["镜子", "镜子里明亮稳定的自己"],
+        ["家", "钥匙、门口的光和回到家的安心"]
+      ];
+      const hit = cues.find(([key]) => text.includes(key));
+      return hit ? hit[1] : `${extractSubject(text, type)}、这个画面里的具体物件、以及我当下最真实的确认感`;
+    }
+
+    function renderAffirmations() {
+      const groups = data.affirmations;
+      $("#affirmationList").innerHTML = groups.length ? groups.map(a => `
+        <article class="item between">
+          <div><b>${html(a.text)}</b><div class="meta"><span>${html(a.tag || "自定义")}</span></div></div>
+          <div class="mini-actions">
+            <button class="primary" data-use-affirmation="${a.id}">使用</button>
+            <button class="ghost" data-edit-affirmation="${a.id}">编辑</button>
+            <button class="icon-btn" data-delete-affirmation="${a.id}">×</button>
+          </div>
+        </article>
+      `).join("") : `<div class="empty">还没有肯定语。</div>`;
+    }
+
+    function renderRoutines() {
+      $("#routineList").innerHTML = data.routines.length ? data.routines.map(r => `
+        <article class="item between">
+          <div><b>${html(r.name)}</b><div class="meta"><span>${r.steps.length}个步骤</span></div></div>
+          <div class="mini-actions">
+            <button class="primary" data-start-routine="${r.id}">开始</button>
+            <button class="ghost" data-select-routine="${r.id}">编辑</button>
+            <button class="icon-btn" data-delete-routine="${r.id}">×</button>
+          </div>
+        </article>
+      `).join("") : `<div class="empty">还没有Routine。</div>`;
+      renderRoutineEditor();
+    }
+    function renderRoutineEditor() {
+      const r = data.routines.find(x => x.id === selectedRoutineId);
+      if (!r) { $("#routineEditor").className = "empty"; $("#routineEditor").textContent = "先选择一个 Routine。"; return; }
+      $("#routineEditor").className = "";
+      $("#routineEditor").innerHTML = `
+        <div class="panel">
+          <h3>${html(r.name)}</h3>
+          <div class="form-row"><input id="routineStepInput" placeholder="添加步骤"><button class="primary" data-add-step="${r.id}">添加</button></div>
+          <div class="list">${r.steps.map((s,i) => `
+            <article class="item between" draggable="true" data-step-index="${i}">
+              <span>${html(s.text)}</span>
+              <div class="mini-actions">
+                <button class="ghost" data-step-up="${i}">↑</button>
+                <button class="ghost" data-step-down="${i}">↓</button>
+                <button class="ghost" data-edit-step="${i}">编辑</button>
+                <button class="icon-btn" data-delete-step="${i}">×</button>
+              </div>
+            </article>`).join("") || `<div class="empty">还没有步骤。</div>`}</div>
+        </div>`;
+    }
+    function renderActiveRoutine() {
+      const active = data.activeRoutine;
+      const r = active && data.routines.find(x => x.id === active.id);
+      if (!r) { $("#activeRoutineList").innerHTML = `<div class="empty">尚未开始 Routine。</div>`; return; }
+      $("#activeRoutineList").innerHTML = r.steps.map((s,i) => `
+        <label class="item check-row">
+          <input class="check" type="checkbox" data-routine-check="${i}" ${active.checks[i] ? "checked" : ""}>
+          <span>${html(s.text)}</span><span></span>
+        </label>`).join("");
+    }
+    function checkRoutineDone() {
+      const active = data.activeRoutine;
+      const r = active && data.routines.find(x => x.id === active.id);
+      if (!r || active.rewarded) return;
+      if (r.steps.length && r.steps.every((_, i) => active.checks[i])) {
+        active.rewarded = true;
+        data.points += 10;
+        save(); renderAll(); toast("Routine完成，+10积分。");
+      }
+    }
+
+    function renderRelease() {
+      const list = [...data.releaseTargets].sort((a,b) => Number(a.cap) - Number(b.cap) || (b.createdAt || 0) - (a.createdAt || 0));
+      const totalPages = Math.max(1, Math.ceil(list.length / RELEASE_PAGE_SIZE));
+      releasePage = Math.min(Math.max(1, releasePage), totalPages);
+      const pageTargets = list.slice((releasePage - 1) * RELEASE_PAGE_SIZE, releasePage * RELEASE_PAGE_SIZE);
+      $("#releaseList").innerHTML = pageTargets.length ? pageTargets.map(t => `
+        <article class="item" style="${t.cap ? "opacity:.58" : ""}">
+          <div class="between" style="gap:.8rem; align-items:flex-start;">
+            <details class="release-card" style="flex:1; min-width:0;">
+              <summary class="${t.cap ? "done" : ""}" style="cursor:pointer; font-weight:900;">
+                ${html(t.text).slice(0, 64)}${t.text.length > 64 ? "…" : ""}
+              </summary>
+              <div class="note" style="margin-top:.65rem;">
+                <b>完整目标：</b><span style="white-space:pre-wrap;">${html(t.text)}</span>
+                <div class="meta" style="margin-top:.55rem;">
+                  <span>创建：${html(timeLabel(t.createdAt) || "旧记录")}</span>
+                  ${t.capAt ? `<span>完成CAP：${html(timeLabel(t.capAt))}</span>` : `<span>状态：释放中</span>`}
+                </div>
+              </div>
+            </details>
+            <div style="display:flex; flex-direction:column; align-items:flex-end; gap:.45rem;">
+              <label style="display:flex; align-items:center; gap:.35rem; border:1px solid var(--line); border-radius:999px; padding:.42rem .65rem; font-size:.82rem; font-weight:900; white-space:nowrap;">
+                <input type="checkbox" data-cap="${t.id}" ${t.cap ? "checked" : ""}> 达到CAP
+              </label>
+              ${t.cap ? `<button class="soft" data-reactivate-release="${t.id}" style="padding:.45rem .7rem;">重新激活</button>` : ""}
+              <button class="icon-btn" data-delete-release="${t.id}">×</button>
+            </div>
+          </div>
+        </article>
+      `).join("") : `<div class="empty">还没有释放目标。</div>`;
+      if (list.length > RELEASE_PAGE_SIZE) {
+        $("#releaseList").innerHTML += `
+          <div class="item between">
+            <button class="ghost" data-release-page="${releasePage - 1}" ${releasePage <= 1 ? "disabled" : ""}>上一页</button>
+            <span class="meta">第 ${releasePage} / ${totalPages} 页 · 共 ${list.length} 条</span>
+            <button class="ghost" data-release-page="${releasePage + 1}" ${releasePage >= totalPages ? "disabled" : ""}>下一页</button>
+          </div>
+        `;
+      }
+    }
+
+    function satsStreak() {
+      const set = new Set(data.sats.records.map(r => r.date));
+      const base = set.has(today()) ? today() : set.has(offsetDate(-1)) ? offsetDate(-1) : "";
+      if (!base) return 0;
+      const baseDate = new Date(`${base}T00:00:00`);
+      let streak = 0;
+      for (let i = 0; i < 365; i++) {
+        const d = new Date(baseDate);
+        d.setDate(d.getDate() - i);
+        if (set.has(dateKey(d))) streak += 1;
+        else break;
+      }
+      return streak;
+    }
+    function renderSats() {
+      $("#satsSceneInput").value = data.sats.scene || "";
+      $("#satsRecordDate").value = $("#satsRecordDate").value || offsetDate(-1);
+      const sceneOptions = [`<option value="">选择历史场景</option>`].concat((data.sats.scenes || []).map(s => `<option value="${s.id}" ${s.text === data.sats.scene ? "selected" : ""}>${html(s.text).slice(0, 36)}</option>`));
+      $("#satsSceneSelect").innerHTML = sceneOptions.join("");
+      const current = satsStreak();
+      data.sats.best = Math.max(data.sats.best || 0, current);
+      $("#satsCurrent").textContent = current;
+      $("#satsTotal").textContent = `${new Set(data.sats.records.map(r => r.date)).size}天`;
+      $("#satsBest").textContent = `${data.sats.best || 0}天`;
+      $("#satsStreak").textContent = `SATS 连续 ${current} 天`;
+      const dates = new Set(data.sats.records.map(r => r.date));
+      $("#satsCalendar").innerHTML = Array.from({ length: 28 }, (_, i) => -27 + i).map(offset => {
+        const key = offsetDate(offset);
+        return `<div class="day-dot ${dates.has(key) ? "done" : ""}">${offset === 0 ? "今天" : key.slice(5).replace("-","/")}</div>`;
+      }).join("");
+      $("#satsReward").textContent = current >= 7 ? "已解锁：七日SATS徽章 · 你已经能稳定地把自己送入新故事。" : "绿色圆点表示已完成。可补记任意日期，连续天数按实际完成日期计算。";
+      save();
+    }
+    function completeSats() {
+      const scene = clampText($("#satsSceneInput").value, 240);
+      data.sats.scene = scene;
+      const d = $("#satsRecordDate").value || offsetDate(-1);
+      if (scene && !data.sats.scenes.some(s => s.text === scene)) data.sats.scenes.unshift({ id: uid(), text: scene, createdAt: Date.now() });
+      const existing = data.sats.records.find(r => r.date === d);
+      if (existing) existing.scene = scene;
+      else data.sats.records.push({ id: uid(), date: d, scene, at: Date.now() });
+      renderSats(); save(); toast(`已补记 ${d} 的 SATS。`);
+    }
+    function saveSatsScene() {
+      const scene = clampText($("#satsSceneInput").value, 240);
+      if (!scene) return toast("先写一个场景。");
+      data.sats.scene = scene;
+      const existing = data.sats.scenes.find(s => s.text === scene);
+      if (!existing) data.sats.scenes.unshift({ id: uid(), text: scene, createdAt: Date.now() });
+      save(); renderSats(); toast("SATS场景已保存。");
+    }
+    document.addEventListener("click", (e) => {
+      const page = e.target.closest("[data-page]"); if (page) showPage(page.dataset.page);
+      const jump = e.target.closest("[data-jump]"); if (jump) showPage(jump.dataset.jump);
+      const scrollTarget = e.target.closest("[data-scroll-target]"); if (scrollTarget) document.getElementById(scrollTarget.dataset.scrollTarget)?.scrollIntoView({ behavior: "smooth", block: "start" });
+      if (e.target.id === "editScBtn") editSc();
+      if (e.target.id === "addTaskBtn") { addTask($("#taskInput").value, $("#taskPointInput").value || 5); $("#taskInput").value = ""; }
+      const addSug = e.target.closest("[data-add-suggestion]"); if (addSug) addTask(addSug.dataset.addSuggestion, addSug.dataset.suggestionPoints || $("#taskPointInput").value || 5);
+      if (e.target.id === "refreshTaskSuggestions") { suggestionOffset = (suggestionOffset + 6) % suggestions.length; renderTasks(); }
+      const delTask = e.target.closest("[data-delete-task]"); if (delTask) { data.tasks = data.tasks.filter(t => t.id !== delTask.dataset.deleteTask); save(); renderTasks(); }
+      const editTaskPoint = e.target.closest("[data-edit-task-points]"); if (editTaskPoint) editTaskPoints(editTaskPoint.dataset.editTaskPoints);
+      if (e.target.id === "openRewardBtn") $("#rewardModal").classList.add("open");
+      if (e.target.id === "closeRewardBtn") $("#rewardModal").classList.remove("open");
+      if (e.target.id === "openRoutineEditorBtn") { renderRoutines(); $("#routineModal").classList.add("open"); }
+      if (e.target.id === "closeRoutineBtn") $("#routineModal").classList.remove("open");
+      if (e.target.id === "addRewardBtn") { const name = clampText($("#rewardName").value, 60); const cost = Number($("#rewardCost").value); if (name && cost > 0) { data.rewards.push({ id: uid(), name, cost }); $("#rewardName").value = ""; $("#rewardCost").value = ""; save(); renderRewards(); } }
+      const redeemBtn = e.target.closest("[data-redeem]"); if (redeemBtn) redeem(redeemBtn.dataset.redeem);
+      const delReward = e.target.closest("[data-delete-reward]"); if (delReward) { data.rewards = data.rewards.filter(r => r.id !== delReward.dataset.deleteReward); save(); renderRewards(); }
+      if (e.target.id === "addSuccessBtn") { const title = clampText($("#successTitle").value, 40); const description = clampText($("#successDescription").value, 500); const date = $("#successDate").value || today(); const points = Math.max(0, Number($("#successPoints").value || 10) || 0); if (title) { data.manifests.unshift({ id: uid(), title, description, date, points, createdAt: Date.now() }); data.points += points; successPage = 1; $("#successTitle").value = ""; $("#successDescription").value = ""; $("#successDate").value = today(); $("#successPoints").value = 10; save(); renderAll(); toast(`已登岛一次，+${points} 积分。`); } }
+      const editSuccess = e.target.closest("[data-edit-success]"); if (editSuccess) editSuccessEvent(editSuccess.dataset.editSuccess);
+      const delSuccess = e.target.closest("[data-delete-success]"); if (delSuccess && confirm("确定删除这条成功事件吗？")) { const item = data.manifests.find(m => m.id === delSuccess.dataset.deleteSuccess); data.points = Math.max(0, data.points - Math.max(0, Number(item?.points || 0) || 0)); data.manifests = data.manifests.filter(m => m.id !== delSuccess.dataset.deleteSuccess); save(); renderAll(); }
+      const successPageBtn = e.target.closest("[data-success-page]"); if (successPageBtn) { successPage = Number(successPageBtn.dataset.successPage) || 1; renderBarbados(); }
+      if (e.target.id === "saveDailyLogBtn") {
+        const text = $("#dailyLogInput").value.trim();
+        if (text) {
+          const existing = editingLogId ? data.logs.find(l => l.id === editingLogId) : logForDate(today());
+          if (existing) {
+            existing.text = text;
+            existing.html = plainToRich(text);
+            existing.updatedAt = Date.now();
+            existing.date = existing.date || today();
+            toast("手记已更新。");
+          } else {
+            data.logs.unshift({ id: uid(), date: today(), text, html: plainToRich(text), status: "稳定", at: Date.now() });
+            logPage = 1;
+            toast("手记已保存。");
+          }
+          editingLogId = null;
+          $("#dailyLogInput").value = "";
+          save(); renderLogs();
+        }
+      }
+      const pinLog = e.target.closest("[data-pin-log]"); if (pinLog) { const log = data.logs.find(l => l.id === pinLog.dataset.pinLog); if (log) { log.pinned = !log.pinned; save(); renderLogs(); toast(log.pinned ? "手记已置顶。" : "已取消置顶。"); } }
+      const editLog = e.target.closest("[data-edit-log]"); if (editLog) openDailyLog(editLog.dataset.editLog);
+      const delLog = e.target.closest("[data-delete-log]"); if (delLog && confirm("确定删除这条手记吗？")) { data.logs = data.logs.filter(l => l.id !== delLog.dataset.deleteLog); if (editingLogId === delLog.dataset.deleteLog) { editingLogId = null; $("#dailyLogInput").value = ""; } save(); renderLogs(); }
+      const logPageBtn = e.target.closest("[data-log-page]"); if (logPageBtn) { logPage = Number(logPageBtn.dataset.logPage) || 1; renderLogs(); }
+      const diaryDay = e.target.closest("[data-diary-date]"); if (diaryDay && !e.target.closest("summary, details")) openDailyLog(diaryDay.dataset.openLog, diaryDay.dataset.diaryDate);
+      const openLog = e.target.closest("[data-open-log]"); if (openLog && !diaryDay && !e.target.closest("button, summary, details")) openDailyLog(openLog.dataset.openLog);
+      if (e.target.id === "prevDiaryMonth") shiftDiaryMonth(-1);
+      if (e.target.id === "nextDiaryMonth") shiftDiaryMonth(1);
+      if (e.target.id === "editDiaryThemeBtn") {
+        openDiaryFieldModal("theme");
+      }
+      if (e.target.id === "editDiaryPlanBtn") {
+        openDiaryFieldModal("plan");
+      }
+      const richCommand = e.target.closest("[data-rich-command]");
+      if (richCommand) {
+        e.preventDefault();
+        $("#logRichEditor")?.focus();
+        document.execCommand(richCommand.dataset.richCommand, false, null);
+      }
+      if (e.target.id === "closeLogModalBtn") closeDailyLogModal();
+      if (e.target.id === "saveLogModalBtn") saveDailyLogModal();
+      if (e.target.id === "pinLogModalBtn") { const log = data.logs.find(l => l.id === viewingLogId); if (log) { log.pinned = !log.pinned; save(); renderLogs(); openDailyLog(log.id); } }
+      if (e.target.id === "deleteLogModalBtn" && viewingLogId && confirm("确定删除这条手记吗？")) { data.logs = data.logs.filter(l => l.id !== viewingLogId); closeDailyLogModal(); save(); renderLogs(); }
+      if (e.target.id === "closeDiaryFieldModalBtn" || e.target.id === "cancelDiaryFieldBtn") closeDiaryFieldModal();
+      if (e.target.id === "saveDiaryFieldBtn") saveDiaryFieldModal();
+      if (e.target.id === "generateStoryBtn") generateStory();
+      if (e.target.id === "saveStoryBtn") {
+        const vision = clampText($("#visionInput").value, 200);
+        const story = clampText($("#storyOutput").value, 1200);
+        if (vision && story) {
+          const existing = editingStoryId && data.stories.find(s => s.id === editingStoryId);
+          data.vision = vision;
+          data.storyDraft = story;
+          if (existing) {
+            existing.vision = vision;
+            existing.story = story;
+            existing.updatedAt = Date.now();
+            storyPage = 1;
+            toast("故事已更新。");
+          } else {
+            data.stories.unshift({ id: uid(), vision, story, at: Date.now() });
+            storyPage = 1;
+            toast("故事已保存。");
+          }
+          editingStoryId = null;
+          save(); renderEnd();
+        }
+      }
+      const editStoryBtn = e.target.closest("[data-edit-story]"); if (editStoryBtn) editStory(editStoryBtn.dataset.editStory);
+      const loadStory = e.target.closest("[data-load-story]"); if (loadStory) { const s = data.stories.find(x => x.id === loadStory.dataset.loadStory); if (s) { editingStoryId = null; data.vision = s.vision; data.storyDraft = s.story; renderEnd(); } }
+      const delStory = e.target.closest("[data-delete-story]"); if (delStory) { data.stories = data.stories.filter(s => s.id !== delStory.dataset.deleteStory); if (editingStoryId === delStory.dataset.deleteStory) editingStoryId = null; save(); renderEnd(); }
+      const storyPageBtn = e.target.closest("[data-story-page]"); if (storyPageBtn) { storyPage = Number(storyPageBtn.dataset.storyPage) || 1; renderEnd(); }
+      if (e.target.id === "addAffirmationBtn") { const text = clampText($("#affirmationText")?.value, 50); const tag = clampText($("#affirmationTag")?.value || "自定义", 20); if (text) { data.affirmations.unshift({ id: uid(), text, tag }); save(); } }
+      const useAff = e.target.closest("[data-use-affirmation]"); if (useAff) { const a = data.affirmations.find(x => x.id === useAff.dataset.useAffirmation); if (a) { data.todayAffirmation = a.text; save(); renderHome(); toast("已设为今日肯定。"); } }
+      const editAff = e.target.closest("[data-edit-affirmation]"); if (editAff) { const a = data.affirmations.find(x => x.id === editAff.dataset.editAffirmation); const next = a && prompt("编辑肯定语：", a.text); if (next !== null && a) { a.text = clampText(next, 50) || a.text; save(); renderAffirmations(); } }
+      const delAff = e.target.closest("[data-delete-affirmation]"); if (delAff) { data.affirmations = data.affirmations.filter(a => a.id !== delAff.dataset.deleteAffirmation); save(); renderAffirmations(); }
+      if (e.target.id === "addRoutineBtn") { const name = clampText($("#routineName").value, 40); if (name) { const r = { id: uid(), name, steps: [] }; data.routines.push(r); selectedRoutineId = r.id; data.activeRoutine = { id: r.id, date: today(), checks: [], rewarded: false }; $("#routineName").value = ""; save(); renderRoutines(); renderActiveRoutine(); } }
+      const selectRoutine = e.target.closest("[data-select-routine]"); if (selectRoutine) { selectedRoutineId = selectRoutine.dataset.selectRoutine; renderRoutineEditor(); }
+      const startRoutine = e.target.closest("[data-start-routine]"); if (startRoutine) { data.activeRoutine = { id: startRoutine.dataset.startRoutine, date: today(), checks: [], rewarded: false }; save(); renderActiveRoutine(); $("#routineModal").classList.remove("open"); showPage("tasks"); }
+      const delRoutine = e.target.closest("[data-delete-routine]"); if (delRoutine) { data.routines = data.routines.filter(r => r.id !== delRoutine.dataset.deleteRoutine); if (selectedRoutineId === delRoutine.dataset.deleteRoutine) selectedRoutineId = null; save(); renderRoutines(); renderActiveRoutine(); }
+      const addStep = e.target.closest("[data-add-step]"); if (addStep) { const r = data.routines.find(x => x.id === addStep.dataset.addStep); const input = $("#routineStepInput"); const text = clampText(input?.value, 80); if (r && text) { r.steps.push({ id: uid(), text }); input.value = ""; save(); renderRoutineEditor(); } }
+      const delStep = e.target.closest("[data-delete-step]"); if (delStep) { const r = data.routines.find(x => x.id === selectedRoutineId); if (r) { r.steps.splice(Number(delStep.dataset.deleteStep), 1); save(); renderRoutineEditor(); renderActiveRoutine(); } }
+      const editStep = e.target.closest("[data-edit-step]"); if (editStep) { const r = data.routines.find(x => x.id === selectedRoutineId); const step = r?.steps[Number(editStep.dataset.editStep)]; const next = step && prompt("编辑步骤：", step.text); if (next !== null && step) { step.text = clampText(next, 80) || step.text; save(); renderRoutineEditor(); renderActiveRoutine(); } }
+      const up = e.target.closest("[data-step-up]"); if (up) moveStep(Number(up.dataset.stepUp), -1);
+      const down = e.target.closest("[data-step-down]"); if (down) moveStep(Number(down.dataset.stepDown), 1);
+      if (e.target.id === "addReleaseBtn") { const text = clampText($("#releaseInput").value, 240); if (text) { data.releaseTargets.unshift({ id: uid(), text, cap: false, createdAt: Date.now() }); releasePage = 1; $("#releaseInput").value = ""; save(); renderRelease(); } }
+      const delRelease = e.target.closest("[data-delete-release]"); if (delRelease) { data.releaseTargets = data.releaseTargets.filter(t => t.id !== delRelease.dataset.deleteRelease); save(); renderRelease(); }
+      const reactivateRelease = e.target.closest("[data-reactivate-release]"); if (reactivateRelease) { const t = data.releaseTargets.find(x => x.id === reactivateRelease.dataset.reactivateRelease); if (t) { t.cap = false; t.capAt = null; save(); renderRelease(); toast("已重新激活，可以再次释放。"); } }
+      const releasePageBtn = e.target.closest("[data-release-page]"); if (releasePageBtn) { releasePage = Number(releasePageBtn.dataset.releasePage) || 1; renderRelease(); }
+      if (e.target.id === "saveSatsSceneBtn") saveSatsScene();
+      if (e.target.id === "completeSatsBtn") completeSats();
+      if (e.target.id === "exportBtn") exportData();
+      if (e.target.id === "importBtn") $("#importFile").click();
+      if (e.target.id === "loginBtn") loginCloudAccount();
+      if (e.target.id === "createAccountBtn") createCloudAccount();
+      if (e.target.id === "syncNowBtn") syncNow();
+      if (e.target.id === "logoutBtn") logoutCloudAccount();
+    });
+
+    $("#paletteBtn").addEventListener("click", (e) => {
+      e.stopPropagation();
+      $("#themeMenu").classList.toggle("open");
+    });
+    $$(".theme-option").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        data.theme = btn.dataset.theme;
+        save();
+        applyTheme();
+        $("#themeMenu").classList.remove("open");
+        toast("皮肤已切换。");
+      });
+    });
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest(".theme-wrap")) $("#themeMenu").classList.remove("open");
+    });
+
+    document.addEventListener("change", (e) => {
+      const sc = e.target.closest("[data-sc]"); if (sc) { data.sc.checks[Number(sc.dataset.sc)] = sc.checked; save(); renderSc(); }
+      const task = e.target.closest("[data-task]"); if (task) toggleTask(task.dataset.task, task.checked);
+      const rc = e.target.closest("[data-routine-check]"); if (rc) { data.activeRoutine.checks[Number(rc.dataset.routineCheck)] = rc.checked; save(); renderActiveRoutine(); checkRoutineDone(); }
+      const cap = e.target.closest("[data-cap]"); if (cap) { const t = data.releaseTargets.find(x => x.id === cap.dataset.cap); if (t) { t.cap = cap.checked; t.capAt = cap.checked ? Date.now() : null; save(); renderRelease(); } }
+      if (e.target.id === "satsSceneSelect") { const scene = data.sats.scenes.find(s => s.id === e.target.value); if (scene) { data.sats.scene = scene.text; $("#satsSceneInput").value = scene.text; save(); renderSats(); } }
+    });
+
+    document.addEventListener("input", (e) => {
+      if (e.target.id === "visionInput") { data.vision = clampText(e.target.value, 200); save(); }
+      if (e.target.id === "storyOutput") { data.storyDraft = e.target.value; save(); }
+      if (e.target.id === "satsSceneInput") { data.sats.scene = e.target.value; save(); }
+    });
+
+    document.addEventListener("dragstart", (e) => {
+      const item = e.target.closest("[data-step-index]");
+      if (item) e.dataTransfer.setData("text/plain", item.dataset.stepIndex);
+    });
+    document.addEventListener("dragover", (e) => {
+      if (e.target.closest("[data-step-index]")) e.preventDefault();
+    });
+    document.addEventListener("drop", (e) => {
+      const target = e.target.closest("[data-step-index]");
+      if (!target) return;
+      e.preventDefault();
+      const from = Number(e.dataTransfer.getData("text/plain"));
+      const to = Number(target.dataset.stepIndex);
+      const r = data.routines.find(x => x.id === selectedRoutineId);
+      if (!r || from === to) return;
+      const [step] = r.steps.splice(from, 1);
+      r.steps.splice(to, 0, step);
+      save(); renderRoutineEditor();
+    });
+
+    function moveStep(index, delta) {
+      const r = data.routines.find(x => x.id === selectedRoutineId);
+      if (!r) return;
+      const next = index + delta;
+      if (next < 0 || next >= r.steps.length) return;
+      [r.steps[index], r.steps[next]] = [r.steps[next], r.steps[index]];
+      save(); renderRoutineEditor(); renderActiveRoutine();
+    }
+    function exportData() {
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `creator-backup-${today()}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+    $("#importFile").addEventListener("change", async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      try {
+        const imported = JSON.parse(await file.text());
+        data = merge(defaults, imported);
+        save(); renderAll(); toast("数据已导入。");
+      } catch { toast("导入失败，文件格式不对。"); }
+      e.target.value = "";
+    });
+
+    $("#authPassword").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") loginCloudAccount();
+    });
+    async function boot() {
+      if (PREVIEW_MODE) {
+        activeUsername = "预览模式";
+        document.body.classList.remove("auth-locked");
+        $("#accountName").textContent = "预览模式";
+        $("#authScreen").style.display = "none";
+        setSyncStatus("本地预览");
+        renderAll();
+        return;
+      }
+      if (!cloudConfigured()) {
+        $("#authNote").textContent = "Supabase SDK 或配置没有加载成功。";
+        setSyncStatus("未连接");
+        $("#authUsername").focus();
+        return;
+      }
+      const { data: sessionData } = await cloud().auth.getSession();
+      if (sessionData.session) {
+        await enterSession(sessionData.session);
+      } else {
+        setSyncStatus("未登录");
+        $("#authUsername").focus();
+      }
+    }
+    boot();
+    setInterval(async () => {
+      if (activeUserId && !cloudDirty) await autoPullCloud();
+      const before = data.lastDailyReset;
+      resetDailyIfNeeded();
+      if (before !== data.lastDailyReset) renderAll();
+    }, 60 * 1000);
+    setInterval(autoPullCloud, AUTO_PULL_MS);
+    document.addEventListener("visibilitychange", async () => {
+      if (document.hidden) {
+        if (cloudDirty) saveCloudNow({ quiet: true });
+      } else {
+        const syncResult = activeUserId ? await loadCloudState({ quiet: true }) : "";
+        const before = data.lastDailyReset;
+        resetDailyIfNeeded();
+        if (before !== data.lastDailyReset || syncResult === "pulled") renderAll();
+      }
+    });
+    window.addEventListener("focus", autoPullCloud);
+    window.addEventListener("pagehide", () => {
+      if (cloudDirty) saveCloudNow({ quiet: true });
+    });
+    window.addEventListener("online", async () => {
+      if (activeUserId) await syncNow();
+    });
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("./sw.js").then(reg => reg.update()).catch(() => {});
+    }
+  </script>
+</body>
+</html>
