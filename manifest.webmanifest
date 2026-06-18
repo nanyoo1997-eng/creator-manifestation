@@ -1,20 +1,14 @@
-﻿{
-  "name": "Creator Manifestation Journal",
-  "short_name": "Creator",
-  "description": "A personal manifestation journal for identity shifts, daily notes, tasks, landed manifestations, and core principles.",
-  "start_url": "./manifestation-system.html?v=28",
-  "scope": "./",
-  "display": "standalone",
-  "background_color": "#FDF8F0",
-  "theme_color": "#A3B5A6",
-  "orientation": "portrait-primary",
-  "icons": [
-    {
-      "src": "./icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
-    }
-  ]
-}
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>创造者日志</title>
+  <meta http-equiv="refresh" content="0; url=./manifestation-system.html?v=30" />
+  <link rel="canonical" href="./manifestation-system.html?v=30" />
+</head>
+<body>
+  <p>正在打开创造者日志。如果没有自动跳转，<a href="./manifestation-system.html?v=30">点这里进入</a>。</p>
+</body>
+</html>
 
