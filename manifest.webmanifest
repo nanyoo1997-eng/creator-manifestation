@@ -2,7 +2,7 @@
   "name": "Creator Manifestation Journal",
   "short_name": "Creator",
   "description": "A personal manifestation journal for identity shifts, daily notes, tasks, landed manifestations, and core principles.",
-  "start_url": "./manifestation-system.html?v=25",
+  "start_url": "./manifestation-system.html?v=28",
   "scope": "./",
   "display": "standalone",
   "background_color": "#FDF8F0",
