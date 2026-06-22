@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#A3B5A6" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-title" content="閸掓盯鈧姾鈧懏妫╄箛? />"
+  <meta name="apple-mobile-web-app-title" content="创造者日志" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <title>閸掓盯鈧姾鈧懏妫╄箛?璺?閺勬儳瀵茬化鑽ょ埠</title>
+  <title>创造者日志｜显化系统</title>
   <link rel="manifest" href="./manifest.webmanifest" />
   <link rel="apple-touch-icon" href="./icon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -364,7 +364,8 @@
         linear-gradient(to top, rgba(1,7,14,.7) 0%, rgba(1,7,14,.32) 20%, rgba(1,7,14,.02) 52%, rgba(1,7,14,.08) 100%),
         radial-gradient(ellipse at 50% 78%, rgba(255,183,118,.42), transparent 18%),
         radial-gradient(ellipse at 50% 52%, rgba(137,189,238,.22), transparent 44%),
-        url("./cosmic-hero.png") center / cover no-repeat;
+        radial-gradient(ellipse at 50% 28%, rgba(96,174,229,.3), transparent 42%),
+        linear-gradient(180deg, #07111d 0%, #0b1726 58%, #06101b 100%);
       overflow: hidden;
       margin-top: .35rem;
     }
@@ -518,7 +519,9 @@
       display: grid;
       place-items: center;
       margin-top: .1rem;
+      cursor: pointer;
     }
+    .check-row { cursor: pointer; }
     .check:checked { background: var(--accent); border-color: var(--accent); }
     .check:checked::after { content: "✓"; color: #fff; font-weight: 900; }
     .done { color: var(--muted); text-decoration: line-through; }
@@ -1102,13 +1105,13 @@
       color: var(--muted);
     }
     body[data-theme="garden"] #home .hero h1::after {
-      content: "闁倸鎮庨崑姘剁帛鐠併倖淇弻鏂惧瘜妫版﹫绱伴張澶屾埂鐎圭偞顢戦棃顫礉閺堝袟鎼村骏绱濋張澶夌閻愮懓銈㈤崡搴礉娴ｅ棙鏆ｆ担鎾茬矝閻掕埖妲哥€瑰娼ら妴浣稿讲閻栬京娈戠粔浣锋眽缁屾椽妫块妴?";
+      content: "不是证明自己够好，而是每天回到我本来就值得。";
     }
     body[data-theme="coast"] #home .hero h1::after {
-      content: "闁倸鎮庢禒璇插閵嗕购outine閵嗕線鍣撮弨鐐《鏉╂瑤绨虹粙鍐茬暰缁崵绮洪惃鍕€夐棃顫偓鍌氱暔闂堟瑣鈧椒缍嗛崢瀣ㄢ偓浣圭槨婢垛晠鍏橀懗钘夋礀閸掓媽鍤滃渚库偓?";
+      content: "穿过玫瑰门，把旧故事留在门外。";
     }
     body[data-theme="alchemy"] #home .hero h1::after {
-      content: "闁倸鎮庨弴瀵告倞閹佲偓浣规纯妤傛楠囬惃鍕稊閸濅線娉﹀Ο鈥崇础閵嗗倸濮涢懗浠嬨€夐棃銏犲剼娑撯偓婵傛鐣ㄩ棃娆戞畱闊偂鍞ょ€圭偤鐛欑化鑽ょ埠閵?";
+      content: "把愿望放进实验台，让现实慢慢显影。";
     }
     body[data-theme="garden"] #home .hero .note,
     body[data-theme="garden"] #home .hero .quote-top,
@@ -1142,7 +1145,7 @@
     body[data-theme="garden"] #home .hero::before {
       background:
         linear-gradient(90deg, rgba(245,236,246,.06), rgba(245,236,246,.28)),
-        url("./crystal-room-hero.png") center / cover no-repeat;
+        url("./crystal-room-hero.png?v=33") center / cover no-repeat;
       box-shadow: inset -22px 0 42px rgba(49,42,68,.12);
     }
 
@@ -1229,7 +1232,8 @@
         linear-gradient(to top, rgba(1,7,14,.7) 0%, rgba(1,7,14,.28) 22%, rgba(1,7,14,.02) 52%, rgba(1,7,14,.08) 100%),
         radial-gradient(ellipse at 50% 78%, rgba(255,183,118,.48), transparent 20%),
         radial-gradient(ellipse at 50% 52%, rgba(137,189,238,.26), transparent 44%),
-        url("./cosmic-hero.png") center / cover no-repeat;
+        radial-gradient(ellipse at 50% 28%, rgba(96,174,229,.32), transparent 42%),
+        linear-gradient(180deg, #07111d 0%, #0b1726 58%, #06101b 100%);
     }
 
     #home > .two-grid {
@@ -1932,7 +1936,7 @@
       border-radius: 28px;
       background:
         linear-gradient(90deg, rgba(49,38,58,.08), rgba(49,38,58,.02) 38%, rgba(255,244,238,.18) 72%, rgba(49,38,58,.32)),
-        url("./crystal-room-hero.png") center / cover no-repeat;
+        url("./crystal-room-hero.png?v=33") center / cover no-repeat;
       box-shadow: inset 0 -70px 120px rgba(48,38,58,.2), inset -80px 0 110px rgba(48,38,58,.24), 0 20px 52px rgba(111,84,122,.16);
     }
     body[data-theme="garden"] #home .hero::after {
@@ -2443,7 +2447,8 @@
         linear-gradient(180deg, rgba(235,246,255,.22) 0%, rgba(175,211,244,.12) 34%, rgba(255,198,140,.18) 68%, rgba(1,7,14,.7) 100%),
         radial-gradient(ellipse at 50% 72%, rgba(255,190,126,.55), transparent 23%),
         radial-gradient(ellipse at 50% 40%, rgba(155,215,255,.28), transparent 48%),
-        url("./cosmic-hero.png") center / cover no-repeat;
+        radial-gradient(ellipse at 50% 28%, rgba(82,166,230,.28), transparent 46%),
+        linear-gradient(180deg, #07111d 0%, #0a1827 58%, #06101b 100%);
     }
     body[data-theme="nebula"] #home .hero::before {
       background:
@@ -2916,14 +2921,14 @@
         font-size: 0;
       }
       body[data-theme="nebula"]:has(#home.page.active) .nebula-hero-actions .primary::before {
-        content: "娴犲﹥妫╂禒顏勭础";
+        content: "????";
         font-size: .92rem;
       }
       body[data-theme="nebula"]:has(#home.page.active) .nebula-hero-actions .ghost {
         font-size: 0;
       }
       body[data-theme="nebula"]:has(#home.page.active) .nebula-hero-actions .ghost::before {
-        content: "瀹告潙鍙嶆径姘焿";
+        content: "????";
         font-size: .92rem;
       }
       body[data-theme="nebula"]:has(#home.page.active) .nebula-landscape {
@@ -2995,7 +3000,7 @@
       }
       body[data-theme="nebula"]:has(#home.page.active) .nebula-stat-bar #satsStreak .stat-label,
       body[data-theme="nebula"]:has(#home.page.active) .nebula-stat-bar #homeLanded .stat-label {
-        display: none;
+        display: block;
       }
     }
 
@@ -3754,6 +3759,17 @@
         margin: 0 12px 16px !important;
       }
     }
+    body:has(.page.active:not(#home)) .app {
+      padding-top: max(2.35rem, 28px) !important;
+    }
+    body:has(.page.active:not(#home)) .page.active > :first-child {
+      scroll-margin-top: 96px;
+    }
+    @media (max-width: 820px) {
+      body:has(.page.active:not(#home)) .app {
+        padding-top: max(1.65rem, 22px) !important;
+      }
+    }
   </style>
 </head>
 <body class="auth-locked" data-theme="garden">
@@ -3799,7 +3815,7 @@
           <p class="note">我不是追逐证据的人。我是选择剧本的人。</p>
           <div class="quote-top" id="todayAffirmation">今日肯定：我值得被爱，无需证明。</div>
         </div>
-        <div class="row">
+        <div class="row nebula-stat-bar">
           <span class="pill" id="homePoints">积分 0</span>
           <span class="pill" id="taskToday">今日任务 0</span>
           <span class="pill" id="satsStreak">SATS 连续 0 天</span>
@@ -4696,6 +4712,30 @@
         scene: r.scene || data.sats.scene || "",
         at: r.at || Date.now()
       }));
+      data.routines = (data.routines || []).map(r => ({
+        id: r.id || uid(),
+        name: clampText(r.name || "我的 Routine", 40),
+        steps: (r.steps || []).map(s => ({
+          id: s.id || uid(),
+          text: clampText(s.text || "", 80)
+        })).filter(s => s.text)
+      })).filter(r => r.name);
+      if (data.activeRoutine) normalizeActiveRoutine();
+    }
+    function activeRoutineTemplate() {
+      return data.activeRoutine && data.routines.find(x => x.id === data.activeRoutine.id);
+    }
+    function normalizeActiveRoutine() {
+      const active = data.activeRoutine;
+      const r = activeRoutineTemplate();
+      if (!active || !r) {
+        data.activeRoutine = null;
+        return null;
+      }
+      active.date = active.date || today();
+      active.checks = Array.from({ length: r.steps.length }, (_, i) => Boolean(active.checks?.[i]));
+      active.rewarded = Boolean(active.rewarded);
+      return r;
     }
     function applyTheme() {
       if (!["garden", "coast", "nebula", "alchemy"].includes(data.theme)) data.theme = "garden";
@@ -5294,8 +5334,9 @@
     }
     function renderActiveRoutine() {
       const active = data.activeRoutine;
-      const r = active && data.routines.find(x => x.id === active.id);
+      const r = active && normalizeActiveRoutine();
       if (!r) { $("#activeRoutineList").innerHTML = `<div class="empty">尚未开始 Routine。</div>`; return; }
+      if (!r.steps.length) { $("#activeRoutineList").innerHTML = `<div class="empty">这个 Routine 还没有步骤。打开编辑器添加步骤后就能勾选。</div>`; return; }
       $("#activeRoutineList").innerHTML = r.steps.map((s,i) => `
         <label class="item check-row">
           <input class="check" type="checkbox" data-routine-check="${i}" ${active.checks[i] ? "checked" : ""}>
@@ -5304,7 +5345,7 @@
     }
     function checkRoutineDone() {
       const active = data.activeRoutine;
-      const r = active && data.routines.find(x => x.id === active.id);
+      const r = active && normalizeActiveRoutine();
       if (!r || active.rewarded) return;
       if (r.steps.length && r.steps.every((_, i) => active.checks[i])) {
         active.rewarded = true;
@@ -5378,7 +5419,11 @@
       $("#satsCurrent").textContent = current;
       $("#satsTotal").textContent = `${new Set(data.sats.records.map(r => r.date)).size}天`;
       $("#satsBest").textContent = `${data.sats.best || 0}天`;
-      $("#satsStreak").textContent = `SATS 连续 ${current} 天`;
+      if (document.body.dataset.theme === "nebula" && $("#home").classList.contains("active")) {
+        $("#satsStreak").innerHTML = `<span class="stat-label">SATS</span><span class="stat-value">${current} DAYS</span>`;
+      } else {
+        $("#satsStreak").textContent = `SATS 连续 ${current} 天`;
+      }
       const dates = new Set(data.sats.records.map(r => r.date));
       $("#satsCalendar").innerHTML = Array.from({ length: 28 }, (_, i) => -27 + i).map(offset => {
         const key = offsetDate(offset);
@@ -5505,10 +5550,10 @@
       const delAff = e.target.closest("[data-delete-affirmation]"); if (delAff) { data.affirmations = data.affirmations.filter(a => a.id !== delAff.dataset.deleteAffirmation); save(); renderAffirmations(); }
       if (e.target.id === "addRoutineBtn") { const name = clampText($("#routineName").value, 40); if (name) { const r = { id: uid(), name, steps: [] }; data.routines.push(r); selectedRoutineId = r.id; data.activeRoutine = { id: r.id, date: today(), checks: [], rewarded: false }; $("#routineName").value = ""; save(); renderRoutines(); renderActiveRoutine(); } }
       const selectRoutine = e.target.closest("[data-select-routine]"); if (selectRoutine) { selectedRoutineId = selectRoutine.dataset.selectRoutine; renderRoutineEditor(); }
-      const startRoutine = e.target.closest("[data-start-routine]"); if (startRoutine) { data.activeRoutine = { id: startRoutine.dataset.startRoutine, date: today(), checks: [], rewarded: false }; save(); renderActiveRoutine(); $("#routineModal").classList.remove("open"); showPage("tasks"); }
+      const startRoutine = e.target.closest("[data-start-routine]"); if (startRoutine) { const r = data.routines.find(x => x.id === startRoutine.dataset.startRoutine); data.activeRoutine = { id: startRoutine.dataset.startRoutine, date: today(), checks: Array.from({ length: r?.steps.length || 0 }, () => false), rewarded: false }; save(); renderActiveRoutine(); $("#routineModal").classList.remove("open"); showPage("tasks"); }
       const delRoutine = e.target.closest("[data-delete-routine]"); if (delRoutine) { data.routines = data.routines.filter(r => r.id !== delRoutine.dataset.deleteRoutine); if (selectedRoutineId === delRoutine.dataset.deleteRoutine) selectedRoutineId = null; save(); renderRoutines(); renderActiveRoutine(); }
-      const addStep = e.target.closest("[data-add-step]"); if (addStep) { const r = data.routines.find(x => x.id === addStep.dataset.addStep); const input = $("#routineStepInput"); const text = clampText(input?.value, 80); if (r && text) { r.steps.push({ id: uid(), text }); input.value = ""; save(); renderRoutineEditor(); } }
-      const delStep = e.target.closest("[data-delete-step]"); if (delStep) { const r = data.routines.find(x => x.id === selectedRoutineId); if (r) { r.steps.splice(Number(delStep.dataset.deleteStep), 1); save(); renderRoutineEditor(); renderActiveRoutine(); } }
+      const addStep = e.target.closest("[data-add-step]"); if (addStep) { const r = data.routines.find(x => x.id === addStep.dataset.addStep); const input = $("#routineStepInput"); const text = clampText(input?.value, 80); if (r && text) { r.steps.push({ id: uid(), text }); if (data.activeRoutine?.id === r.id) { data.activeRoutine.checks = Array.isArray(data.activeRoutine.checks) ? data.activeRoutine.checks : []; data.activeRoutine.checks.push(false); data.activeRoutine.rewarded = false; } input.value = ""; save(); renderRoutineEditor(); renderActiveRoutine(); } }
+      const delStep = e.target.closest("[data-delete-step]"); if (delStep) { const r = data.routines.find(x => x.id === selectedRoutineId); const index = Number(delStep.dataset.deleteStep); if (r) { r.steps.splice(index, 1); if (data.activeRoutine?.id === r.id) { data.activeRoutine.checks = Array.isArray(data.activeRoutine.checks) ? data.activeRoutine.checks : []; data.activeRoutine.checks.splice(index, 1); data.activeRoutine.rewarded = false; } save(); renderRoutineEditor(); renderActiveRoutine(); } }
       const editStep = e.target.closest("[data-edit-step]"); if (editStep) { const r = data.routines.find(x => x.id === selectedRoutineId); const step = r?.steps[Number(editStep.dataset.editStep)]; const next = step && prompt("编辑步骤：", step.text); if (next !== null && step) { step.text = clampText(next, 80) || step.text; save(); renderRoutineEditor(); renderActiveRoutine(); } }
       const up = e.target.closest("[data-step-up]"); if (up) moveStep(Number(up.dataset.stepUp), -1);
       const down = e.target.closest("[data-step-down]"); if (down) moveStep(Number(down.dataset.stepDown), 1);
@@ -5535,7 +5580,7 @@
         e.stopPropagation();
         data.theme = btn.dataset.theme;
         save();
-        applyTheme();
+        renderAll();
         $("#themeMenu").classList.remove("open");
         toast("皮肤已切换。");
       });
@@ -5547,7 +5592,7 @@
     document.addEventListener("change", (e) => {
       const sc = e.target.closest("[data-sc]"); if (sc) { data.sc.checks[Number(sc.dataset.sc)] = sc.checked; save(); renderSc(); }
       const task = e.target.closest("[data-task]"); if (task) toggleTask(task.dataset.task, task.checked);
-      const rc = e.target.closest("[data-routine-check]"); if (rc) { data.activeRoutine.checks[Number(rc.dataset.routineCheck)] = rc.checked; save(); renderActiveRoutine(); checkRoutineDone(); }
+      const rc = e.target.closest("[data-routine-check]"); if (rc && data.activeRoutine) { normalizeActiveRoutine(); data.activeRoutine.checks[Number(rc.dataset.routineCheck)] = rc.checked; save(); renderActiveRoutine(); checkRoutineDone(); }
       const cap = e.target.closest("[data-cap]"); if (cap) { const t = data.releaseTargets.find(x => x.id === cap.dataset.cap); if (t) { t.cap = cap.checked; t.capAt = cap.checked ? Date.now() : null; save(); renderRelease(); } }
       if (e.target.id === "satsSceneSelect") { const scene = data.sats.scenes.find(s => s.id === e.target.value); if (scene) { data.sats.scene = scene.text; $("#satsSceneInput").value = scene.text; save(); renderSats(); } }
     });
@@ -5575,7 +5620,13 @@
       if (!r || from === to) return;
       const [step] = r.steps.splice(from, 1);
       r.steps.splice(to, 0, step);
-      save(); renderRoutineEditor();
+      if (data.activeRoutine?.id === r.id) {
+        normalizeActiveRoutine();
+        const [check] = data.activeRoutine.checks.splice(from, 1);
+        data.activeRoutine.checks.splice(to, 0, Boolean(check));
+        data.activeRoutine.rewarded = false;
+      }
+      save(); renderRoutineEditor(); renderActiveRoutine();
     });
 
     function moveStep(index, delta) {
@@ -5584,6 +5635,11 @@
       const next = index + delta;
       if (next < 0 || next >= r.steps.length) return;
       [r.steps[index], r.steps[next]] = [r.steps[next], r.steps[index]];
+      if (data.activeRoutine?.id === r.id) {
+        normalizeActiveRoutine();
+        [data.activeRoutine.checks[index], data.activeRoutine.checks[next]] = [data.activeRoutine.checks[next], data.activeRoutine.checks[index]];
+        data.activeRoutine.rewarded = false;
+      }
       save(); renderRoutineEditor(); renderActiveRoutine();
     }
     function exportData() {
