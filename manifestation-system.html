@@ -1145,7 +1145,7 @@
     body[data-theme="garden"] #home .hero::before {
       background:
         linear-gradient(90deg, rgba(245,236,246,.06), rgba(245,236,246,.28)),
-        url("./crystal-room-hero.png?v=33") center / cover no-repeat;
+        url("./crystal-room-hero.png?v=34") center / cover no-repeat;
       box-shadow: inset -22px 0 42px rgba(49,42,68,.12);
     }
 
@@ -1936,7 +1936,7 @@
       border-radius: 28px;
       background:
         linear-gradient(90deg, rgba(49,38,58,.08), rgba(49,38,58,.02) 38%, rgba(255,244,238,.18) 72%, rgba(49,38,58,.32)),
-        url("./crystal-room-hero.png?v=33") center / cover no-repeat;
+        url("./crystal-room-hero.png?v=34") center / cover no-repeat;
       box-shadow: inset 0 -70px 120px rgba(48,38,58,.2), inset -80px 0 110px rgba(48,38,58,.24), 0 20px 52px rgba(111,84,122,.16);
     }
     body[data-theme="garden"] #home .hero::after {
@@ -5338,10 +5338,18 @@
       if (!r) { $("#activeRoutineList").innerHTML = `<div class="empty">尚未开始 Routine。</div>`; return; }
       if (!r.steps.length) { $("#activeRoutineList").innerHTML = `<div class="empty">这个 Routine 还没有步骤。打开编辑器添加步骤后就能勾选。</div>`; return; }
       $("#activeRoutineList").innerHTML = r.steps.map((s,i) => `
-        <label class="item check-row">
+        <label class="item check-row" data-routine-row="${i}">
           <input class="check" type="checkbox" data-routine-check="${i}" ${active.checks[i] ? "checked" : ""}>
           <span>${html(s.text)}</span><span></span>
         </label>`).join("");
+    }
+    function toggleRoutineCheck(index, checked) {
+      if (!data.activeRoutine) return;
+      normalizeActiveRoutine();
+      data.activeRoutine.checks[index] = Boolean(checked);
+      save();
+      renderActiveRoutine();
+      checkRoutineDone();
     }
     function checkRoutineDone() {
       const active = data.activeRoutine;
@@ -5586,13 +5594,21 @@
       });
     });
     document.addEventListener("click", (e) => {
+      const routineRow = e.target.closest("[data-routine-row]");
+      if (routineRow && !e.target.closest("[data-routine-check]")) {
+        e.preventDefault();
+        const index = Number(routineRow.dataset.routineRow);
+        const input = routineRow.querySelector("[data-routine-check]");
+        toggleRoutineCheck(index, !input?.checked);
+        return;
+      }
       if (!e.target.closest(".theme-wrap")) $("#themeMenu").classList.remove("open");
     });
 
     document.addEventListener("change", (e) => {
       const sc = e.target.closest("[data-sc]"); if (sc) { data.sc.checks[Number(sc.dataset.sc)] = sc.checked; save(); renderSc(); }
       const task = e.target.closest("[data-task]"); if (task) toggleTask(task.dataset.task, task.checked);
-      const rc = e.target.closest("[data-routine-check]"); if (rc && data.activeRoutine) { normalizeActiveRoutine(); data.activeRoutine.checks[Number(rc.dataset.routineCheck)] = rc.checked; save(); renderActiveRoutine(); checkRoutineDone(); }
+      const rc = e.target.closest("[data-routine-check]"); if (rc && data.activeRoutine) toggleRoutineCheck(Number(rc.dataset.routineCheck), rc.checked);
       const cap = e.target.closest("[data-cap]"); if (cap) { const t = data.releaseTargets.find(x => x.id === cap.dataset.cap); if (t) { t.cap = cap.checked; t.capAt = cap.checked ? Date.now() : null; save(); renderRelease(); } }
       if (e.target.id === "satsSceneSelect") { const scene = data.sats.scenes.find(s => s.id === e.target.value); if (scene) { data.sats.scene = scene.text; $("#satsSceneInput").value = scene.text; save(); renderSats(); } }
     });

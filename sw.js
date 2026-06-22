@@ -1,4 +1,4 @@
-const CACHE_NAME = "creator-manifestation-v33";
+const CACHE_NAME = "creator-manifestation-v34";
 const APP_SHELL = [
   "./manifest.webmanifest",
   "./icon.svg"
